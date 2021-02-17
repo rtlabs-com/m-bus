@@ -1,6 +1,6 @@
 Modbus stack
 =============
-[![Build Status](https://travis-ci.org/rtlabs-com/m-bus.svg?branch=master)](https://travis-ci.org/rtlabs-com/m-bus)
+[![Build Status](https://github.com/rtlabs-com/m-bus/workflows/build/badge.svg?branch=master)](https://github.com/rtlabs-com/m-bus/actions?workflow=build)
 
 This repository contains a Modbus stack. The stack is written to an OS
 abstraction layer and can also be used in a bare metal
