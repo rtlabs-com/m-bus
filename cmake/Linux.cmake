@@ -54,8 +54,6 @@ target_compile_options(mbus
 
 target_link_libraries(mbus
   PUBLIC
-  pthread
-  rt
   $<$<BOOL:${USE_TRACE}>:LTTng::UST>
   INTERFACE
   $<$<CONFIG:Coverage>:--coverage>
