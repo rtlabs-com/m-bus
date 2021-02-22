@@ -211,7 +211,7 @@ TEST_P (MbSlaveTestRead, MbSlaveTestReadResponse)
 }
 
 // clang-format off
-INSTANTIATE_TEST_CASE_P (
+INSTANTIATE_TEST_SUITE_P (
    ReadTests,
    MbSlaveTestRead,
    Values (
@@ -312,7 +312,7 @@ TEST_P (MbSlaveTestWrite, MbSlaveTestWriteResponseAndState)
 }
 
 // clang-format off
-INSTANTIATE_TEST_CASE_P (
+INSTANTIATE_TEST_SUITE_P (
    WriteTests,
    MbSlaveTestWrite,
    Values (

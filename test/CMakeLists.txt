@@ -13,6 +13,12 @@
 # full license information.
 #*******************************************************************/
 
+set_target_properties (mbus_test
+  PROPERTIES
+  C_STANDARD 99
+  CXX_STANDARD 11
+  )
+
 target_sources(mbus_test PRIVATE
   # Unit tests
   test_mbus.cpp
@@ -58,3 +64,6 @@ target_link_libraries(mbus_test
   PRIVATE
   mbus
   )
+
+# No need for gmock
+set(BUILD_GMOCK OFF CACHE BOOL "")
