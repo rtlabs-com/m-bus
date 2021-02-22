@@ -17,7 +17,12 @@
 
 int main (int argc, char * argv[])
 {
-   ::testing::InitGoogleTest (&argc, argv);
+   if (argc > 0)
+      ::testing::InitGoogleTest (&argc, argv);
+   else
+      ::testing::InitGoogleTest();
+
    int result = RUN_ALL_TESTS();
-   return result;
+   exit (result);
+   return 0;
 }
