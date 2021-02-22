@@ -1,6 +1,7 @@
 Modbus stack
 =============
-[![Build Status](https://github.com/rtlabs-com/m-bus/workflows/build/badge.svg?branch=master)](https://github.com/rtlabs-com/m-bus/actions?workflow=build)
+[![Build Status](https://github.com/rtlabs-com/m-bus/workflows/Build/badge.svg?branch=master)](https://github.com/rtlabs-com/m-bus/actions?workflow=Build)
+[![CodeQL](https://github.com/rtlabs-com/m-bus/workflows/CodeQL/badge.svg?branch=master)](https://github.com/rtlabs-com/m-bus/actions?workflow=CodeQL)
 
 This repository contains a Modbus stack. The stack is written to an OS
 abstraction layer and can also be used in a bare metal
