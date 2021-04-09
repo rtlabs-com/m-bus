@@ -17,17 +17,10 @@
 option (USE_TRACE
   "Add tracepoints"
   OFF)
-option (USE_SCHED_FIFO
-  "Use SCHED_FIFO policy. May require extra privileges to run"
-  OFF)
 
 if (USE_TRACE)
   find_package(LTTngUST)
   add_compile_definitions(USE_TRACE)
-endif()
-
-if (USE_SCHED_FIFO)
-  add_compile_definitions(USE_SCHED_FIFO)
 endif()
 
 target_include_directories(mbus
