@@ -13,6 +13,11 @@
 # full license information.
 #*******************************************************************/
 
+target_include_directories(mbus
+  PRIVATE
+  src/ports/rt-kernel
+  )
+
 target_sources(mbus
   PRIVATE
   src/ports/rt-kernel/mbal_tcp.c

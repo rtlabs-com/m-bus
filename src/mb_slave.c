@@ -55,13 +55,13 @@ void mb_slave_bit_set (void * data, uint32_t address, int value)
 
 uint16_t mb_slave_reg_get (void * data, uint32_t address)
 {
-   uint8_t * p = data + address * sizeof (uint16_t);
+   uint8_t * p = (uint8_t *)data + address * sizeof (uint16_t);
    return (p[0] << 8) | p[1];
 }
 
 void mb_slave_reg_set (void * data, uint32_t address, uint16_t value)
 {
-   uint8_t * p = data + address * sizeof (uint16_t);
+   uint8_t * p = (uint8_t *)data + address * sizeof (uint16_t);
 
    p[0] = value >> 8;
    p[1] = value & 0xFF;
@@ -356,7 +356,7 @@ static int mb_slave_diagnostics (
    switch (sub_function)
    {
    case PDU_DIAG_LOOPBACK:
-      return rx_count;
+      return (int)rx_count;
    default:
       break;
    }

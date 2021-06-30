@@ -6,32 +6,39 @@
  * |_|    \__|(_)|_| \__,_||_.__/ |___/
  *
  * www.rt-labs.com
- * Copyright 2015 rt-labs AB, Sweden.
+ * Copyright 2012 rt-labs AB, Sweden.
  *
  * This software is dual-licensed under GPLv3 and a commercial
  * license. See the file LICENSE.md distributed with this software for
  * full license information.
  ********************************************************************/
 
-#ifndef MBAL_TCP_H
-#define MBAL_TCP_H
+#include "mbal_rtu.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "mbal_sys.h"
-#include "mb_transport.h"
-
-int os_tcp_connect (const char * name, uint16_t port);
-int os_tcp_accept_connection (uint16_t port);
-void os_tcp_close (int peer);
-int os_tcp_send (int peer, const void * buffer, size_t size);
-int os_tcp_recv (int peer, void * buffer, size_t size);
-int os_tcp_recv_wait (int peer, uint32_t tmo);
-
-#ifdef __cplusplus
+ssize_t os_rtu_write (int fd, const void * buffer, size_t size)
+{
+   return -1;
 }
-#endif
 
-#endif /* MBAL_TCP_H */
+ssize_t os_rtu_read (int fd, void * buffer, size_t size)
+{
+   return -1;
+}
+
+void os_rtu_tx_drain (int fd, size_t size)
+{
+}
+
+ssize_t os_rtu_rx_avail (int fd)
+{
+   return -1;
+}
+
+void os_rtu_set_serial_cfg (int fd, const mb_rtu_serial_cfg_t * cfg)
+{
+}
+
+int os_rtu_open (const char * name, void * arg)
+{
+   return -1;
+}

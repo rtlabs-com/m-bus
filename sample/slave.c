@@ -105,7 +105,7 @@ static int ping (uint8_t * data, size_t rx_count)
 {
    char * message = "Hello World";
    memcpy (data, message, strlen (message));
-   return strlen (message);
+   return (int)strlen (message);
 }
 
 static const mb_vendor_func_t vendor_funcs[] = {

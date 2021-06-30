@@ -52,33 +52,40 @@ typedef struct pdu_request
 
 typedef pdu_request_t pdu_response_t;
 
+CC_PACKED_BEGIN
 typedef struct pdu_read
 {
    uint8_t function;
    uint16_t address;
    uint16_t quantity;
 } CC_PACKED pdu_read_t;
+CC_PACKED_END
 
+CC_PACKED_BEGIN
 typedef struct pdu_read_response
 {
    uint8_t function;
    uint8_t count;
    uint8_t data[];
 } CC_PACKED pdu_read_response_t;
+CC_PACKED_END
 
 CC_STATIC_ASSERT (sizeof (pdu_read_response_t) == 2);
 
+CC_PACKED_BEGIN
 typedef struct pdu_write_single
 {
    uint8_t function;
    uint16_t address;
    uint16_t value;
 } CC_PACKED pdu_write_single_t;
+CC_PACKED_END
 
 CC_STATIC_ASSERT (sizeof (pdu_write_single_t) == 5);
 
 typedef pdu_write_single_t pdu_write_single_response_t;
 
+CC_PACKED_BEGIN
 typedef struct pdu_write
 {
    uint8_t function;
@@ -87,18 +94,22 @@ typedef struct pdu_write
    uint8_t count;
    uint8_t data[];
 } CC_PACKED pdu_write_t;
+CC_PACKED_END
 
 CC_STATIC_ASSERT (sizeof (pdu_write_t) == 6);
 
+CC_PACKED_BEGIN
 typedef struct pdu_write_response
 {
    uint8_t function;
    uint16_t address;
    uint16_t quantity;
 } CC_PACKED pdu_write_response_t;
+CC_PACKED_END
 
 CC_STATIC_ASSERT (sizeof (pdu_write_response_t) == 5);
 
+CC_PACKED_BEGIN
 typedef struct pdu_read_write
 {
    uint8_t function;
@@ -109,21 +120,26 @@ typedef struct pdu_read_write
    uint8_t count;
    uint8_t data[];
 } CC_PACKED pdu_read_write_t;
+CC_PACKED_END
 
 CC_STATIC_ASSERT (sizeof (pdu_read_write_t) == 10);
 
+CC_PACKED_BEGIN
 typedef struct pdu_diag_t
 {
    uint8_t function;
    uint16_t sub_function;
    uint8_t data[];
 } CC_PACKED pdu_diag_t;
+CC_PACKED_END
 
+CC_PACKED_BEGIN
 typedef struct pdu_vendor_t
 {
    uint8_t function;
    uint8_t data[];
 } CC_PACKED pdu_vendor_t;
+CC_PACKED_END
 
 typedef union
 {

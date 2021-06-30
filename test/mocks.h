@@ -29,7 +29,7 @@ extern "C" {
 extern unsigned int mock_mb_pdu_tx_calls;
 extern pdu_txn_t mock_mb_pdu_tx_transaction;
 extern uint8_t mock_mb_pdu_tx_data[MAX_PDU_SIZE];
-extern uint8_t mock_mb_pdu_tx_size;
+extern size_t mock_mb_pdu_tx_size;
 
 void mock_mb_pdu_tx (
    mb_transport_t * transport,
@@ -38,7 +38,7 @@ void mock_mb_pdu_tx (
 
 extern unsigned int mock_mb_pdu_rx_calls;
 extern const uint8_t * mock_mb_pdu_rx_data;
-extern uint8_t mock_mb_pdu_rx_size;
+extern size_t mock_mb_pdu_rx_size;
 extern int mock_mb_pdu_rx_result;
 
 int mock_mb_pdu_rx (

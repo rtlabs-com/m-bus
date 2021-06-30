@@ -13,25 +13,21 @@
  * full license information.
  ********************************************************************/
 
-#ifndef MBAL_TCP_H
-#define MBAL_TCP_H
+#include "slave.h"
+#include "mb_bsp.h"
+#include "osal.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+int main (void)
+{
+   mb_slave_t * slave;
+   mb_transport_t * rtu;
+   mb_rtu_serial_cfg_t serial_cfg;
 
-#include "mbal_sys.h"
-#include "mb_transport.h"
+   serial_cfg.baudrate = 115200;
+   serial_cfg.parity = NONE;
 
-int os_tcp_connect (const char * name, uint16_t port);
-int os_tcp_accept_connection (uint16_t port);
-void os_tcp_close (int peer);
-int os_tcp_send (int peer, const void * buffer, size_t size);
-int os_tcp_recv (int peer, void * buffer, size_t size);
-int os_tcp_recv_wait (int peer, uint32_t tmo);
-
-#ifdef __cplusplus
+   rtu = mb_rtu_create ("/dev/ttyAMA0", &serial_cfg);
+   slave = mb_slave_init (&mb_slave_cfg, rtu);
+   os_usleep (20 * 1000 * 1000);
+   mb_slave_shutdown (slave);
 }
-#endif
-
-#endif /* MBAL_TCP_H */

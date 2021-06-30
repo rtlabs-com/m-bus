@@ -23,8 +23,6 @@
 #include "osal_log.h"
 
 #include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <errno.h>
 
 #if defined(__linux__) && defined (USE_TRACE)
@@ -193,7 +191,7 @@ static void mb_rtu_tx (
 
    /* Compute CRC */
    crc = mb_crc (&slave, 1, 0xFFFF);
-   crc = mb_crc (transaction->data, size, crc);
+   crc = mb_crc (transaction->data, (uint8_t)size, crc);
 
    /* Enable Tx */
    if (rtu->tx_enable)
@@ -288,7 +286,7 @@ static int mb_rtu_rx (
    /* Get remainder of message (until T1P5 expires) */
    do
    {
-      int nread;
+      size_t nread;
 
       os_event_wait (
          rtu->flags,
@@ -304,7 +302,7 @@ static int mb_rtu_rx (
    } while ((flags & FLAG_T1P5) == 0);
 
    /* Verify message */
-   crc = mb_crc (transaction->data, count, crc);
+   crc = mb_crc (transaction->data, (uint8_t)count, crc);
    if (crc != 0)
    {
       error    = ECRC_FAIL;
@@ -354,7 +352,7 @@ static int mb_rtu_rx (
    mb_rtu_dump ("Rx:\n", transaction->data, count);
    tracepoint (mb, rx_trace, 4);
 
-   return count;
+   return (int)count;
 }
 
 static bool mb_rtu_rx_bc (mb_transport_t * transport)

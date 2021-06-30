@@ -21,7 +21,7 @@
 unsigned int mock_mb_pdu_tx_calls;
 pdu_txn_t mock_mb_pdu_tx_transaction;
 uint8_t mock_mb_pdu_tx_data[MAX_PDU_SIZE];
-uint8_t mock_mb_pdu_tx_size;
+size_t mock_mb_pdu_tx_size;
 
 void mock_mb_pdu_tx (
    mb_transport_t * transport,
@@ -36,7 +36,7 @@ void mock_mb_pdu_tx (
 
 unsigned int mock_mb_pdu_rx_calls;
 const uint8_t * mock_mb_pdu_rx_data;
-uint8_t mock_mb_pdu_rx_size;
+size_t mock_mb_pdu_rx_size;
 int mock_mb_pdu_rx_result;
 
 int mock_mb_pdu_rx (
