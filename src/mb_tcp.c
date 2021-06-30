@@ -103,10 +103,10 @@ static void mb_tcp_tx (
    mb_tcp_t * mb_tcp = (mb_tcp_t *)transport;
    int peer          = transaction->arg;
    mbap_t * mbap     = &mb_tcp->mbap;
-   int result;
+   ssize_t result;
 
    mbap->id       = CC_TO_BE16 (transaction->id);
-   mbap->length   = CC_TO_BE16 (size + 1); /* Includes size of unit id */
+   mbap->length   = CC_TO_BE16 ((uint16_t)size + 1); /* Includes size of unit id */
    mbap->protocol = 0;
    mbap->unit     = transaction->unit;
 
@@ -134,7 +134,7 @@ static int mb_tcp_rx (
    int peer          = transaction->arg;
    mbap_t * mbap     = &mb_tcp->mbap;
    size_t size       = 0;
-   int result;
+   ssize_t result;
 
    /* Wait for next message until timeout */
    result = os_tcp_recv_wait (peer, tmo);
@@ -188,7 +188,7 @@ static int mb_tcp_rx (
    transaction->id   = CC_FROM_BE16 (mbap->id);
    transaction->unit = mbap->unit;
 
-   return size;
+   return (int)size;
 }
 
 static bool mb_tcp_rx_is_bc (mb_transport_t * transport)

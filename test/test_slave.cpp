@@ -124,7 +124,7 @@ extern "C" int ping (uint8_t * data, size_t rx_count)
    {
       data[i] |= 0x80;
    }
-   return rx_count;
+   return (int)rx_count;
 }
 
 extern "C" const mb_vendor_func_t vendor_funcs[] = {
@@ -199,7 +199,7 @@ TEST_P (MbSlaveTestRead, MbSlaveTestReadResponse)
 
    mock_mb_pdu_rx_data = &request[0];
    mock_mb_pdu_rx_size = request.size();
-   mock_mb_pdu_rx_result = request.size();
+   mock_mb_pdu_rx_result = (int)request.size();
 
    mb_slave_handle_request (&slave, &transaction);
 
@@ -288,7 +288,7 @@ TEST_P (MbSlaveTestWrite, MbSlaveTestWriteResponseAndState)
 
    mock_mb_pdu_rx_data = &request[0];
    mock_mb_pdu_rx_size = request.size();
-   mock_mb_pdu_rx_result = request.size();
+   mock_mb_pdu_rx_result = (int)request.size();
 
    mb_slave_handle_request (&slave, &transaction);
 

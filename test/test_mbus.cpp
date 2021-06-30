@@ -49,7 +49,7 @@ TEST_F (MbusTest, MbusReadCoils)
    uint8_t data[4];
    int error;
    uint8_t expected[253] = {0x01, 0x27, 0x10, 0x00, 0x04};
-   uint8_t response[]    = {0x01, 0x06, 0x12, 0x34, 0x56, 0x78};
+   uint8_t response[]    = {0x01, 0x04, 0x12, 0x34, 0x56, 0x78};
 
    mock_mb_pdu_rx_data   = response;
    mock_mb_pdu_rx_size   = sizeof (response);
@@ -70,7 +70,7 @@ TEST_F (MbusTest, MbusReadInputs)
    uint8_t data[4];
    int error;
    uint8_t expected[253] = {0x02, 0x27, 0x10, 0x00, 0x04};
-   uint8_t response[] = {0x02, 0x06, 0x12, 0x34, 0x56, 0x78};
+   uint8_t response[] = {0x02, 0x04, 0x12, 0x34, 0x56, 0x78};
 
    mock_mb_pdu_rx_data = response;
    mock_mb_pdu_rx_size = sizeof (response);
@@ -111,7 +111,7 @@ TEST_F (MbusTest, MbusReadHoldingRegisters)
    uint16_t data[3];
    int error;
    uint8_t expected[253] = {0x03, 0x27, 0x10, 0x00, 0x03};
-   uint8_t response[] = {0x03, 0x08, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
+   uint8_t response[] = {0x03, 0x06, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
 
    mock_mb_pdu_rx_data   = response;
    mock_mb_pdu_rx_size   = sizeof (response);

@@ -30,8 +30,7 @@ extern "C" {
 
 #include "mb_export.h"
 
-#include <unistd.h>
-#include <fcntl.h>
+#include <stdint.h>
 
 typedef struct mbus
 {

@@ -33,7 +33,7 @@ Prerequisites for all platforms
 Windows
 =======
 
- * Visual Studio 2017 or later
+ * Visual Studio 2019 or later
 
 You can use a windows or unix shell as preferred. The following
 instructions are for a unix shell. CMake is assumed to be in your

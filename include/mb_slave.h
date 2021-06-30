@@ -30,9 +30,6 @@ extern "C" {
 
 #include "mb_export.h"
 
-#include <unistd.h>
-#include <fcntl.h>
-
 typedef struct mb_iotable
 {
    /**

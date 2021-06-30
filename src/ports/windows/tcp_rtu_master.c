@@ -18,12 +18,12 @@
 #include "mb_rtu.h"
 #include "mb_bsp.h"
 
-#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <unistd.h>
+
+#include <windows.h>
 
 static struct opt
 {
@@ -114,24 +114,28 @@ static bool parse_tcp_details (char * s)
 
    /* Get ip address */
 
-   p = strtok_r (s, ":", &saveptr);
+   p = strtok_s (s, ":", &saveptr);
    if (p == NULL)
       return false;
 
-   strncpy (opt.tcp_details.ip, p, sizeof (opt.tcp_details.ip));
+   strncpy_s (
+      opt.tcp_details.ip,
+      sizeof (opt.tcp_details.ip),
+      p,
+      sizeof (opt.tcp_details.ip));
    opt.tcp_details.ip[sizeof (opt.tcp_details.ip) - 1] = 0;
 
    /* Get ip port */
 
-   p = strtok_r (NULL, ":", &saveptr);
+   p = strtok_s (NULL, ":", &saveptr);
    if (p == NULL)
       return false;
 
-   opt.tcp_details.cfg.port = strtoul (p, NULL, 0);
+   opt.tcp_details.cfg.port = (uint16_t)strtoul (p, NULL, 0);
 
    /* Check for extra unknown options */
 
-   p = strtok_r (NULL, ":", &saveptr);
+   p = strtok_s (NULL, ":", &saveptr);
    if (p != NULL)
       return false;
 
@@ -145,16 +149,20 @@ static bool parse_rtu_details (char * s)
 
    /* Get device */
 
-   p = strtok_r (s, ":", &saveptr);
+   p = strtok_s (s, ":", &saveptr);
    if (p == NULL)
       return false;
 
-   strncpy (opt.rtu_details.device, p, sizeof (opt.rtu_details.device));
+   strncpy_s (
+      opt.rtu_details.device,
+      sizeof (opt.rtu_details.device),
+      p,
+      sizeof (opt.rtu_details.device));
    opt.rtu_details.device[sizeof (opt.rtu_details.device) - 1] = 0;
 
    /* Get baudrate */
 
-   p = strtok_r (NULL, ":", &saveptr);
+   p = strtok_s (NULL, ":", &saveptr);
    if (p == NULL)
       return false;
 
@@ -162,7 +170,7 @@ static bool parse_rtu_details (char * s)
 
    /* Get parity */
 
-   p = strtok_r (NULL, ":", &saveptr);
+   p = strtok_s (NULL, ":", &saveptr);
    if (p == NULL)
       return false;
 
@@ -177,16 +185,20 @@ static bool parse_rtu_details (char * s)
 
    /* Get unit */
 
-   p = strtok_r (NULL, ":", &saveptr);
+   p = strtok_s (NULL, ":", &saveptr);
    if (p == NULL)
       return false;
 
-   strncpy (opt.rtu_details.unit, p, sizeof (opt.rtu_details.unit));
+   strncpy_s (
+      opt.rtu_details.unit,
+      sizeof (opt.rtu_details.unit),
+      p,
+      sizeof (opt.rtu_details.unit));
    opt.rtu_details.unit[sizeof (opt.rtu_details.unit) - 1] = 0;
 
    /* Check for extra unknown options */
 
-   p = strtok_r (NULL, ":", &saveptr);
+   p = strtok_s (NULL, ":", &saveptr);
    if (p != NULL)
       return false;
 
@@ -195,54 +207,36 @@ static bool parse_rtu_details (char * s)
 
 static void parse_opt (int argc, char * argv[])
 {
-   static struct option options[] = {
-      {"help", no_argument, 0, 0},
-      {"repeat", required_argument, 0, 0},
-      {"delay", required_argument, 0, 0},
-      {0, 0, 0, 0}};
+   int optind = 1;
 
    /* Set defaults */
    opt.repeat = 1;
 
-   while (1)
+   while (optind < argc)
    {
-      int c;
-      int option_index = 0;
-
-      c = getopt_long (argc, argv, "h", options, &option_index);
-      if (c == -1)
-         break;
-
-      switch (c)
+      if (strcmp (argv[optind], "--help") == 0)
       {
-      case 0:
-         switch (option_index)
-         {
-         case 0:
-            help (argv[0]);
-            break;
-         case 1:
-            opt.repeat = strtoul (optarg, NULL, 0);
-            break;
-         case 2:
-            opt.delay = strtoul (optarg, NULL, 0);
-            break;
-         default:
-            exit (EXIT_FAILURE);
-         }
-         break;
-
-      case 'h':
          help (argv[0]);
-         break;
-
-      case '?':
-         fail (argv[0], NULL);
-         break;
-
-      default:
-         exit (EXIT_FAILURE);
+         exit (EXIT_SUCCESS);
       }
+      else if (strcmp (argv[optind], "--repeat") == 0)
+      {
+         opt.repeat = strtoul (argv[++optind], NULL, 0);
+      }
+      else if (strcmp (argv[optind], "--delay") == 0)
+      {
+         opt.delay = strtoul (argv[++optind], NULL, 0);
+      }
+      else if (argv[optind][0] == '-')
+      {
+         fail (argv[0], "unknown option");
+      }
+      else
+      {
+         break;
+      }
+
+      ++optind;
    }
 
    /* Get command */
@@ -352,6 +346,11 @@ int main (int argc, char * argv[])
       fail (argv[0], "Unknown transport");
    }
 
+   if (slave == -1)
+   {
+      fail (argv[0], "Failed to open socket");
+   }
+
    for (int i = 0; i < opt.repeat; i++)
    {
       uint16_t value = 0;
@@ -376,6 +375,6 @@ int main (int argc, char * argv[])
       else if (opt.read)
          printf ("0x%04x\n", value);
 
-      usleep (opt.delay * 1000);
+      Sleep (opt.delay);
    }
 }

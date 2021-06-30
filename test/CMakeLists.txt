@@ -16,7 +16,7 @@
 set_target_properties (mbus_test
   PROPERTIES
   C_STANDARD 99
-  CXX_STANDARD 11
+  CXX_STANDARD 20
   )
 
 target_sources(mbus_test PRIVATE

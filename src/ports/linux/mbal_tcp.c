@@ -33,9 +33,8 @@
 #define KEEP_ALIVE_INTVL 2  /* time between keepalives [s] */
 #define KEEP_ALIVE_CNT   3  /* max number of unacked keepalives */
 
-#define RCV_TIMEOUT                                                            \
-   500 /* max time to wait for message in                                      \
-          progress [ms] */
+/* max time to wait for message in progress [ms] */
+#define RCV_TIMEOUT 500
 
 int os_tcp_connect (const char * name, uint16_t port)
 {
@@ -94,7 +93,6 @@ int os_tcp_accept_connection (uint16_t port)
    int sock;
    struct sockaddr_in addr;
    struct timeval tv;
-   socklen_t size;
    int option;
    int peer;
 
@@ -144,7 +142,7 @@ int os_tcp_accept_connection (uint16_t port)
    }
 
    /* Accept one connection */
-   peer = accept (sock, (struct sockaddr *)&addr, &size);
+   peer = accept (sock, NULL, NULL);
    if (peer == -1)
    {
       /* Error or timeout */
