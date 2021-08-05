@@ -13,6 +13,10 @@
 # full license information.
 #*******************************************************************/
 
+# FIXME: OSAL requires Threads but transitive dependency is not
+# exported by cmake
+find_package(Threads)
+
 # Options
 option (USE_TRACE
   "Add tracepoints"
