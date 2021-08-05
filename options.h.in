@@ -1,0 +1,24 @@
+#ifndef OPTIONS_H
+#define OPTIONS_H
+
+#define OPTIONS_H
+
+#cmakedefine LOG_ENABLE
+
+#ifndef LOG_LEVEL
+#define LOG_LEVEL               (LOG_LEVEL_@LOG_LEVEL@)
+#endif
+
+#ifndef MB_RTU_LOG
+#define MB_RTU_LOG              (LOG_STATE_@MB_RTU_LOG@)
+#endif
+
+#ifndef MB_TCP_LOG
+#define MB_TCP_LOG              (LOG_STATE_@MB_TCP_LOG@)
+#endif
+
+#ifndef MBUS_TIMEOUT
+#define MBUS_TIMEOUT            (@MBUS_TIMEOUT@)
+#endif
+
+#endif  /* OPTIONS_H */
