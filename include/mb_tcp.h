@@ -44,6 +44,27 @@ typedef struct mb_tcp_cfg
                    *   Modbus slave will listen on this local port.
                    *   Modbus master will connect to slaves at this remote port.
                    */
+
+   /**
+    * This callback function is called when a new connection has been
+    * accepted.
+    *
+    * The callback can be disabled if not required, by setting it to
+    * NULL.
+    *
+    * \param transport          handle
+    */
+   void (*up_cb) (mb_transport_t * transport);
+
+   /**
+    * This callback function is called when a connection is shut down.
+    *
+    * The callback can be disabled if not required, by setting it to
+    * NULL.
+    *
+    * \param transport          handle
+    */
+   void (*down_cb) (mb_transport_t * transport);
 } mb_tcp_cfg_t;
 
 /**

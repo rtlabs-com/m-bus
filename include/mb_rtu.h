@@ -112,6 +112,27 @@ typedef struct mb_rtu_cfg
       void (*t1p5_expired) (void * arg),
       void (*t3p5_expired) (void * arg),
       void * arg);
+
+   /**
+    * This callback function is called when a new connection has been
+    * accepted.
+    *
+    * The callback can be disabled if not required, by setting it to
+    * NULL.
+    *
+    * \param transport          handle
+    */
+   void (*up_cb) (mb_transport_t * transport);
+
+   /**
+    * This callback function is called when a connection is shut down.
+    *
+    * The callback can be disabled if not required, by setting it to
+    * NULL.
+    *
+    * \param transport          handle
+    */
+   void (*down_cb) (mb_transport_t * transport);
 } mb_rtu_cfg_t;
 
 /**
