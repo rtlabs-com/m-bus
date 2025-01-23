@@ -530,7 +530,7 @@ static void mb_slave (void * arg)
       if (transaction.arg == -1)
       {
          /* Avoid busy waiting on transport bringup */
-         os_usleep (500 * 1000);
+         os_usleep (1 * 1000);
          continue;
       }
 
