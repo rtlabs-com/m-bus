@@ -17,8 +17,4 @@
 #define MB_TCP_LOG              (LOG_STATE_@MB_TCP_LOG@)
 #endif
 
-#ifndef MBUS_TIMEOUT
-#define MBUS_TIMEOUT            (@MBUS_TIMEOUT@)
-#endif
-
 #endif  /* OPTIONS_H */

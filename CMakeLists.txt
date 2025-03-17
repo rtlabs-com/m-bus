@@ -63,9 +63,6 @@ set_property(CACHE MB_RTU_LOG PROPERTY STRINGS ${LOG_STATE_VALUES})
 set(MB_TCP_LOG ON CACHE STRING "tcp log")
 set_property(CACHE MB_TCP_LOG PROPERTY STRINGS ${LOG_STATE_VALUES})
 
-set(MBUS_TIMEOUT "100"
-  CACHE STRING "timeout in ms for something")
-
 # Generate version numbers
 configure_file (
   version.h.in
