@@ -95,8 +95,6 @@ typedef struct mb_rtu_cfg
       void * arg);
 } mb_rtu_cfg_t;
 
-typedef struct mb_rtu mb_rtu_t;
-
 /**
  * Reconfigure the Modbus RTU serial parameters. Calling this function
  * reconfigures the serial port and calculates the T1P5 and T3P5

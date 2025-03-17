@@ -42,13 +42,13 @@ typedef struct mbap
 
 #define MBAP_HEADER_SIZE offsetof (mbap_t, data)
 
-struct mb_tcp /* Typedef in mb_tcp.h */
+typedef struct mb_tcp
 {
    mb_transport_t transport;
    uint16_t port;
    bool is_down;
    mbap_t mbap;
-};
+} mb_tcp_t;
 
 static int mb_tcp_bringup (mb_transport_t * transport, const char * name)
 {
@@ -110,9 +110,9 @@ static void mb_tcp_tx (
    mbap->protocol = 0;
    mbap->unit     = transaction->unit;
 
+   LOG_DEBUG (MB_TCP_LOG, "Sending header and %d bytes data\n", (unsigned)size);
    memcpy (mbap->data, transaction->data, size);
    result = os_tcp_send (peer, mbap, MBAP_HEADER_SIZE + size);
-   LOG_DEBUG (MB_TCP_LOG, "Sent mbap\n");
 
    if (result <= 0)
    {
@@ -154,7 +154,7 @@ static int mb_tcp_rx (
    /* Get message. The recv function will timeout if data is not
       available in a reasonable timeframe. */
 
-   LOG_DEBUG (MB_TCP_LOG, "Getting header\n");
+   LOG_DEBUG (MB_TCP_LOG, "Receiving header\n");
    result = os_tcp_recv (peer, mbap, MBAP_HEADER_SIZE);
    if (result == MBAP_HEADER_SIZE)
    {
@@ -165,7 +165,7 @@ static int mb_tcp_rx (
       if (size > MAX_PDU_SIZE)
          size = MAX_PDU_SIZE;
 
-      LOG_DEBUG (MB_TCP_LOG, "Getting %d bytes\n", (unsigned)size);
+      LOG_DEBUG (MB_TCP_LOG, "Receiving %d bytes data\n", (unsigned)size);
       result = os_tcp_recv (peer, transaction->data, size);
    }
 

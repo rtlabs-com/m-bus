@@ -37,8 +37,6 @@ typedef struct mb_tcp_cfg
    uint16_t port;
 } mb_tcp_cfg_t;
 
-typedef struct mb_tcp mb_tcp_t;
-
 /**
  * Initialise and configure the Modbus TCP data layer.
  *
