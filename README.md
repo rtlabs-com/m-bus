@@ -3,7 +3,7 @@ Modbus stack
 [![Build Status](https://github.com/rtlabs-com/m-bus/workflows/Build/badge.svg?branch=master)](https://github.com/rtlabs-com/m-bus/actions?workflow=Build)
 [![CodeQL](https://github.com/rtlabs-com/m-bus/workflows/CodeQL/badge.svg?branch=master)](https://github.com/rtlabs-com/m-bus/actions?workflow=CodeQL)
 
-This repository contains a Modbus stack. The stack is written to an OS
+This repository contains the M-Bus Modbus stack. The stack is written to an OS
 abstraction layer and can also be used in a bare metal
 application. Using the abstraction layer, the stack can run on Linux,
 Windows or on an RTOS.
@@ -19,7 +19,7 @@ $ git clone --recurse-submodules https://github.com/rtlabs-com/m-bus.git
 
 This will clone the repository with submodules. If you already cloned
 the repository without the `--recurse-submodules` flag then run this
-in the m-bus folder:
+in the `m-bus` folder:
 
 ```
 $ git submodule update --init --recursive
@@ -28,7 +28,7 @@ $ git submodule update --init --recursive
 Prerequisites for all platforms
 ===============================
 
- * CMake 3.14 or later
+ * CMake 3.28 or later
 
 Windows
 =======
@@ -86,19 +86,19 @@ Workbench project
 -----------------
 
 This creates a Makefile project that can be imported to Workbench. The
-project will be created in the build directory. The build directory
-should be located outside of the source tree.
+project will be created in the build directory `build.xmc48relax`. The build directory
+should be located outside of the source tree `m-bus`.
 
 ```
-$ RTK=/path/to/rt-kernel BSP=xmc48relax cmake \
-   -B build.xmc48relax -S /path/to/m-bus \
+$ RTK=/opt/rt-tools/rt-kernel-xmc4 BSP=xmc48relax cmake \
+   -B build.xmc48relax -S m-bus \
    -DCMAKE_TOOLCHAIN_FILE=cmake/tools/toolchain/rt-kernel.cmake \
    -DCMAKE_ECLIPSE_EXECUTABLE=/opt/rt-tools/workbench/Workbench \
    -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE \
    -G "Eclipse CDT4 - Unix Makefiles"
 ```
 
-A source project will also be created in the m-bus tree. This project
+A source project will also be created in the `m-bus` tree. This project
 can also be imported to Workbench. After importing, right-click on the
 project and choose *New* -> *Convert to a C/C++ project*. This will
 setup the project so that the indexer works correctly and the
