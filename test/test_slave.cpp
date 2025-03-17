@@ -354,3 +354,40 @@ INSTANTIATE_TEST_SUITE_P (
    )
 );
 // clang-format on
+
+TEST (MbSlaveExamples, MbSlaveBitSet)
+{
+   uint8_t data[4] = {0x00, 0x00, 0x00, 0x00};
+
+   mb_slave_bit_set (data, 28, 1);
+
+   EXPECT_EQ (data[3], 0x10);
+}
+
+TEST (MbSlaveExamples, MbSlaveRegSet)
+{
+   uint8_t data[4] = {0x00, 0x00, 0x00, 0x00};
+
+   mb_slave_reg_set (data, 1, 0x1234);
+
+   EXPECT_EQ (data[2], 0x12);
+   EXPECT_EQ (data[3], 0x34);
+}
+
+TEST (MbSlaveExamples, MbSlaveBitGet)
+{
+   uint8_t data[4] = {0x00, 0x00, 0x00, 0x10};
+
+   int value = mb_slave_bit_get (data, 28);
+
+   EXPECT_EQ (value, 1);
+}
+
+TEST (MbSlaveExamples, MbSlaveRegGet)
+{
+   uint8_t data[4] = {0x00, 0x00, 0x12, 0x34};
+
+   uint16_t value = mb_slave_reg_get (data, 1);
+
+   EXPECT_EQ (value, 0x1234);
+}

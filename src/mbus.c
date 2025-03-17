@@ -16,6 +16,7 @@
 #ifdef UNIT_TEST
 #define mb_pdu_tx mock_mb_pdu_tx
 #define mb_pdu_rx mock_mb_pdu_rx
+#define mb_transport_bringup mock_mb_transport_bringup
 #endif
 
 #include "mbus.h"
