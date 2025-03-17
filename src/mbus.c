@@ -214,7 +214,7 @@ int mbus_write (
    int slave,
    mb_address_t address,
    uint16_t quantity,
-   void * buffer)
+   const void * buffer)
 {
    pdu_txn_t * transaction = &mbus->transaction;
    pdu_write_t * request   = mbus->scratch;

@@ -32,11 +32,11 @@
 
 #define PDU_TIMEOUT 5000 /* Timeout for rx retries (ticks) */
 
-int mb_slave_bit_get (void * data, uint32_t address)
+int mb_slave_bit_get (const void * data, uint32_t address)
 {
    uint32_t ix = address / 8;
    uint32_t offset = address % 8;
-   uint8_t * p = data;
+   const uint8_t * p = data;
 
    return (p[ix] & BIT (offset)) ? 1 : 0;
 }
@@ -53,9 +53,9 @@ void mb_slave_bit_set (void * data, uint32_t address, int value)
       p[ix] &= ~BIT (offset);
 }
 
-uint16_t mb_slave_reg_get (void * data, uint32_t address)
+uint16_t mb_slave_reg_get (const void * data, uint32_t address)
 {
-   uint8_t * p = (uint8_t *)data + address * sizeof (uint16_t);
+   const uint8_t * p = (const uint8_t *)data + address * sizeof (uint16_t);
    return (p[0] << 8) | p[1];
 }
 

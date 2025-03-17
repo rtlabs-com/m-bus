@@ -196,7 +196,7 @@ MB_EXPORT int mbus_write (
    int slave,
    mb_address_t address,
    uint16_t quantity,
-   void * buffer);
+   const void * buffer);
 
 /**
  * Write a single modbus address
