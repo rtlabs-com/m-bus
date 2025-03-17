@@ -19,6 +19,13 @@
             }
         },
         {
+            "name": "docs",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+	    }
+        },
+        {
             "name": "default",
             "inherits" : "base"
         }
@@ -31,6 +38,11 @@
         {
             "name": "test",
             "configurePreset": "test"
+        },
+        {
+            "name": "docs",
+            "configurePreset": "docs",
+	        "targets": ["sphinx-html"]
         }
     ],
     "packagePresets": [
