@@ -1,0 +1,26 @@
+\usepackage{tikz}
+\renewcommand{\sphinxmaketitle}{
+  \begin{titlepage}
+    \begingroup % for PDF information dictionary
+    \def\endgraf{ }\def\and{\& }
+    \pdfstringdefDisableCommands{\def\\{, }}% overwrite hyperref setup
+    \hypersetup{pdfauthor={\@author}, pdftitle={\@title}}%
+    \endgroup
+    \begin{tikzpicture}[overlay,remember picture]
+      \node[anchor=north east,inner sep=2cm] at (current page.north east) {
+        \includegraphics[height=4cm]{mbus.pdf}
+      };
+    \end{tikzpicture}
+    \begin{tikzpicture}[overlay,remember picture]
+      \node[anchor=south east,inner sep=2cm] at (current page.south east) {
+        \includegraphics[width=5cm]{rtlabs_logo.eps}
+      };
+    \end{tikzpicture}
+    \vskip 6cm
+    \raggedleft
+    \py@HeaderFamily
+        {\huge \textmd{\@title} \par}
+        {\Large \textmd{\@date} \par}
+  \end{titlepage}
+  \setcounter{footnote}{0}
+}

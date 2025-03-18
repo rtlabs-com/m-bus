@@ -1,0 +1,9 @@
+breathe
+codespell
+myst-parser
+sphinx-copybutton
+sphinx==7.1.2
+sphinx_book_theme==1.1.3
+sphinxcontrib-kroki
+sphinxcontrib-spelling
+sphinxcontrib-svg2pdfconverter[CairoSVG]
