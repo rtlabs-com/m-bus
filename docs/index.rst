@@ -11,4 +11,5 @@ protocol. For a list of features, see :ref:`Stack features`.
    :maxdepth: 2
    :caption: Contents
 
+   tutorials/index.rst
    reference-manual/index.rst
