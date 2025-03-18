@@ -46,6 +46,10 @@ typedef struct mb_tcp_cfg
  */
 MB_EXPORT mb_transport_t * mb_tcp_init (const mb_tcp_cfg_t * cfg);
 
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* MB_TCP_H */
 
 /**
