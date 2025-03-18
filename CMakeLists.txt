@@ -82,10 +82,6 @@ add_executable(mb_master "")
 add_executable(mb_tcp_slave "")
 add_executable(mb_rtu_slave "")
 
-if (CMAKE_PROJECT_NAME STREQUAL MBUS AND BUILD_TESTING)
-  add_executable(mbus_test "")
-endif()
-
 # Platform configuration
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${CMAKE_SYSTEM_NAME}.cmake)
 
@@ -156,8 +152,6 @@ add_subdirectory (src)
 
 if (CMAKE_PROJECT_NAME STREQUAL MBUS AND BUILD_TESTING)
   add_subdirectory (test)
-  include(AddGoogleTest)
-  add_gtest(mbus_test)
 endif()
 
 # Doxygen configuration

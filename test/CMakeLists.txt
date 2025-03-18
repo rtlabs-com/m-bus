@@ -13,6 +13,14 @@
 # full license information.
 #*******************************************************************/
 
+include(AddGoogleTest)
+
+# No need for gmock
+set(BUILD_GMOCK OFF CACHE BOOL "")
+
+add_executable(mbus_test "")
+add_gtest(mbus_test)
+
 set_target_properties (mbus_test
   PROPERTIES
   C_STANDARD 99
@@ -65,5 +73,3 @@ target_link_libraries(mbus_test
   mbus
   )
 
-# No need for gmock
-set(BUILD_GMOCK OFF CACHE BOOL "")
