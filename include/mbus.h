@@ -40,6 +40,19 @@ typedef struct mbus
    void * scratch;
 } mbus_t;
 
+/**
+ * Modbus table selection
+ *
+ * These are the primary tables in the Modbus data model.
+ */
+typedef enum mb_table
+{
+   MB_TABLE_COILS = 0,              /**< Coils. Single bit read/write */
+   MB_TABLE_INPUTS = 1,             /**< Inputs. Single bit read-only */
+   MB_TABLE_INPUT_REGISTERS = 3,    /**< Input registers. 16 bits read-only */
+   MB_TABLE_HOLDING_REGISTERS = 4,  /**< Holding registers. 16 bits read/write */
+} mb_table_t;
+
 typedef uint32_t mb_address_t;
 
 /**
