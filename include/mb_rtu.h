@@ -30,15 +30,23 @@ extern "C" {
 
 #include <stdint.h>
 
+/**
+ * Serial port parity setting
+ */
+typedef enum mb_rtu_parity
+{
+   ODD,                    /**< Odd parity */
+   EVEN,                   /**< Even parity */
+   NONE,                   /**< No parity */
+} mb_rtu_parity_t;
+
+/**
+ * Serial port configuration
+ */
 typedef struct mb_rtu_serial_cfg
 {
-   int baudrate;
-   enum
-   {
-      ODD,
-      EVEN,
-      NONE
-   } parity;
+   int baudrate;           /**< Baud rate [bits/s] */
+   mb_rtu_parity_t parity; /**< Parity bit setting */
 } mb_rtu_serial_cfg_t;
 
 typedef struct mb_rtu_cfg
