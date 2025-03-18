@@ -12,4 +12,5 @@ protocol. For a list of features, see :ref:`Stack features`.
    :caption: Contents
 
    tutorials/index.rst
+   how-to-guides/index.rst
    reference-manual/index.rst
