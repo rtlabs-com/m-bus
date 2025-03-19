@@ -1,0 +1,96 @@
+def buildPrepare()
+{
+   sh """
+      git clean -xdff
+      uv venv --seed
+      uv pip install wheel
+      uv pip install cmake>=2.28
+   """
+}
+
+def buildPreset(String preset, Boolean archive = false)
+{
+   sh """
+      . .venv/bin/activate
+      cmake --preset ${preset}
+      cmake --build --preset ${preset}
+   """
+
+   if (archive) {
+      sh """
+         . .venv/bin/activate
+         cpack --preset ${preset} -G ZIP
+      """
+      archiveArtifacts (
+         artifacts: "build/${preset}/mbus-*.zip",
+         fingerprint: true
+      )
+   }
+}
+
+pipeline {
+   agent any
+
+   stages {
+      stage("build") {
+         parallel {
+            stage('linux') {
+               steps {
+                  buildPrepare()
+                  buildPreset('default', true)
+                  buildPreset('test')
+               }
+            }
+         }
+      }
+
+      stage('get project version') {
+         steps {
+            dir('build/default') {
+               script {
+                  def systemInformation = sh(script: 'cmake --system-information', returnStdout: true)
+                  def versionLine = systemInformation =~ /CMAKE_PROJECT_VERSION:STATIC=(.*)/
+                  if (versionLine) {
+                     env.PROJECT_VERSION = versionLine[0][1].trim()
+                     env.PROJECT_PREFIX = "mbus-${env.PROJECT_VERSION}"
+                  }
+               }
+            }
+         }
+      }
+      stage('samples') {
+         steps {
+            sh "git archive -o ${env.PROJECT_PREFIX}-samples.zip HEAD:sample --prefix ${env.PROJECT_PREFIX}-samples/"
+            archiveArtifacts (
+               artifacts: "${env.PROJECT_PREFIX}-samples.zip"
+            )
+         }
+      }
+      stage('verify') {
+         steps {
+            sh 'ctest --preset test --output-junit test-results.xml'
+            dir('build/test') {
+               sh 'gcovr --xml -o coverage.xml --object-directory . --root $WORKSPACE/src'
+            }
+         }
+         post {
+            always {
+               junit '**/test-results.xml'
+
+               cobertura autoUpdateHealth: false,
+                  autoUpdateStability: false,
+                  coberturaReportFile: '**/coverage.xml',
+                  conditionalCoverageTargets: '70, 0, 0',
+                  lineCoverageTargets: '80, 0, 0',
+                  enableNewApi: false,
+                  failNoReports: false,
+                  failUnhealthy: false,
+                  failUnstable: false,
+                  maxNumberOfBuilds: 0,
+                  sourceEncoding: 'ASCII',
+                  zoomCoverageChart: false
+            }
+         }
+      }
+   }
+}
