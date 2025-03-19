@@ -22,7 +22,7 @@
 #include "osal.h"
 
 #include <winsock2.h>
-#include <Mstcpip.h>
+#include <mstcpip.h>
 #include <stdio.h>
 
 #define KEEP_ALIVE_IDLE  10 /* max idle time before keepalive sent [s] */
