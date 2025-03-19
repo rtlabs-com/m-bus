@@ -13,22 +13,22 @@
 # full license information.
 #*******************************************************************/
 
-target_include_directories(mbus
-  PRIVATE
-  src/ports/rt-kernel
-  )
-
-target_sources(mbus
-  PRIVATE
-  src/ports/rt-kernel/mbal_tcp.c
-  src/ports/rt-kernel/mbal_rtu.c
-  src/ports/rt-kernel/mb_master.c
-  )
-
-target_compile_options(mbus
-  PRIVATE
+target_compile_options(mb_sample
+  INTERFACE
   -Wall
   -Wextra
   -Werror
   -Wno-unused-parameter
+)
+
+target_sources(mb_master
+  PRIVATE
+  ports/linux/mb_bsp.c
+  ports/linux/tcp_rtu_master.c
+  )
+
+target_sources(mb_rtu_slave
+  PRIVATE
+  ports/linux/mb_bsp.c
+  ports/linux/rtu_slave.c
   )

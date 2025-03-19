@@ -78,9 +78,6 @@ configure_file (
 # Add platform-dependent targets early, so they can be configured by
 # platform
 add_library(mbus "")
-add_executable(mb_master "")
-add_executable(mb_tcp_slave "")
-add_executable(mb_rtu_slave "")
 
 # Platform configuration
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${CMAKE_SYSTEM_NAME}.cmake)
@@ -90,7 +87,7 @@ generate_export_header(mbus
   EXPORT_FILE_NAME ${MBUS_BINARY_DIR}/include/mb_export.h
   )
 
-set_target_properties (mbus mb_master mb_tcp_slave mb_rtu_slave
+set_target_properties (mbus
   PROPERTIES
   C_STANDARD 99
   )
@@ -111,20 +108,7 @@ target_include_directories(mbus
   src
   )
 
-target_include_directories(mb_rtu_slave PRIVATE sample)
-target_include_directories(mb_tcp_slave PRIVATE sample)
-
 target_link_libraries(mbus PUBLIC osal)
-target_link_libraries(mb_master PUBLIC mbus)
-target_link_libraries(mb_tcp_slave PUBLIC mbus)
-target_link_libraries(mb_rtu_slave PUBLIC mbus)
-
-install (
-  TARGETS
-  mb_master
-  mb_tcp_slave
-  mb_rtu_slave
-  DESTINATION bin)
 
 install (
   TARGETS mbus
@@ -144,11 +128,13 @@ install (FILES
   include/mb_rtu.h
   include/mb_tcp.h
   include/mb_error.h
+  include/mbus.h
   ${MBUS_BINARY_DIR}/include/mb_export.h
   DESTINATION include
   )
 
 add_subdirectory (src)
+add_subdirectory (sample)
 
 if (CMAKE_PROJECT_NAME STREQUAL MBUS AND BUILD_TESTING)
   add_subdirectory (test)

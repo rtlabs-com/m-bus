@@ -45,25 +45,6 @@ target_link_libraries(mbus
   wsock32
   ws2_32)
 
-target_sources(mb_master
-  PRIVATE
-  src/ports/windows/mb_bsp.c
-  src/ports/windows/tcp_rtu_master.c
-  )
-
-target_sources(mb_tcp_slave
-  PRIVATE
-  sample/slave.c
-  sample/tcp_slave.c
-  )
-
-target_sources(mb_rtu_slave
-  PRIVATE
-  sample/slave.c
-  src/ports/windows/mb_bsp.c
-  src/ports/windows/rtu_slave.c
-  )
-
 if (BUILD_TESTING)
   set(GOOGLE_TEST_INDIVIDUAL TRUE)
 endif()

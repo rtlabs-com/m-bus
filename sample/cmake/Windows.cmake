@@ -13,22 +13,30 @@
 # full license information.
 #*******************************************************************/
 
-target_include_directories(mbus
-  PRIVATE
-  src/ports/rt-kernel
+target_compile_options(mb_sample
+  INTERFACE
+  $<$<C_COMPILER_ID:MSVC>:
+    /WX
+    /wd4200
+    /D _CRT_SECURE_NO_WARNINGS
+  >
+
+  $<$<C_COMPILER_ID:GNU>:
+    -Wall
+    -Wextra
+    -Werror
+    -Wno-unused-parameter
+  >
   )
 
-target_sources(mbus
+target_sources(mb_master
   PRIVATE
-  src/ports/rt-kernel/mbal_tcp.c
-  src/ports/rt-kernel/mbal_rtu.c
-  src/ports/rt-kernel/mb_master.c
+  ports/windows/mb_bsp.c
+  ports/windows/tcp_rtu_master.c
   )
 
-target_compile_options(mbus
+target_sources(mb_rtu_slave
   PRIVATE
-  -Wall
-  -Wextra
-  -Werror
-  -Wno-unused-parameter
+  ports/windows/mb_bsp.c
+  ports/windows/rtu_slave.c
   )

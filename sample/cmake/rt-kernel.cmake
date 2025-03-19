@@ -13,22 +13,21 @@
 # full license information.
 #*******************************************************************/
 
-target_include_directories(mbus
+if (EXISTS ports/rt-kernel/mb_${BSP}.c)
+  set(BSP_SOURCE ports/rt-kernel/mb_${BSP}.c)
+else()
+  set(BSP_SOURCE ports/rt-kernel/mb_bsp.c)
+endif()
+
+target_sources(mb_master
   PRIVATE
-  src/ports/rt-kernel
+  ${BSP_SOURCE}
+  ports/rt-kernel/mb_cmds.c
+  ports/rt-kernel/tcp_rtu_master.c
   )
 
-target_sources(mbus
+target_sources(mb_rtu_slave
   PRIVATE
-  src/ports/rt-kernel/mbal_tcp.c
-  src/ports/rt-kernel/mbal_rtu.c
-  src/ports/rt-kernel/mb_master.c
-  )
-
-target_compile_options(mbus
-  PRIVATE
-  -Wall
-  -Wextra
-  -Werror
-  -Wno-unused-parameter
+  ${BSP_SOURCE}
+  ports/rt-kernel/rtu_slave.c
   )
