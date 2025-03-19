@@ -26,9 +26,18 @@ target_sources(mbus
 
 target_compile_options(mbus
   PRIVATE
-  /WX
-  /wd4200
-  /D _CRT_SECURE_NO_WARNINGS
+  $<$<C_COMPILER_ID:MSVC>:
+    /WX
+    /wd4200
+    /D _CRT_SECURE_NO_WARNINGS
+  >
+
+  $<$<C_COMPILER_ID:GNU>:
+    -Wall
+    -Wextra
+    -Werror
+    -Wno-unused-parameter
+  >
   )
 
 target_link_libraries(mbus
