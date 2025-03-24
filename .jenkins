@@ -28,6 +28,16 @@ def buildPreset(String preset, Boolean archive = false)
    }
 }
 
+def dockerBuildArgs()
+{
+   return   '''\
+   --build-arg BUILDER_UID="$( id -u )" \
+   --build-arg BUILDER_GID="$( id -g )" \
+   --build-arg BUILDER_USER="$( id -un )" \
+   --build-arg BUILDER_GROUP="$( id -gn )" \
+'''
+}
+
 pipeline {
    agent any
 
@@ -41,6 +51,35 @@ pipeline {
                   buildPreset('test')
                }
             }
+
+            stage('linux-arm64') {
+               agent {
+                  dockerfile {
+                     filename 'linux-arm64.Dockerfile'
+                     dir '.docker'
+                     additionalBuildArgs dockerBuildArgs()
+                  }
+               }
+               steps {
+                  buildPrepare()
+                  buildPreset('default', true)
+               }
+            }
+
+            stage('windows-x64') {
+               agent {
+                  dockerfile {
+                     filename 'windows-x64.Dockerfile'
+                     dir '.docker'
+                     additionalBuildArgs dockerBuildArgs()
+                  }
+               }
+               steps {
+                  buildPrepare()
+                  buildPreset('default', true)
+               }
+            }
+
          }
       }
 
