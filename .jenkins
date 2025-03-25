@@ -38,6 +38,47 @@ def dockerBuildArgs()
 '''
 }
 
+def buildDocs()
+{
+   sh """
+      . .venv/bin/activate
+      uv pip install -r docs/requirements.txt
+      cmake --preset docs
+      cmake --build --preset docs
+   """
+
+   dir('build/docs') {
+      script {
+         def systemInformation = sh(script: 'cmake --system-information', returnStdout: true)
+         def versionLine = systemInformation =~ /CMAKE_PROJECT_VERSION:STATIC=(.*)/
+         if (versionLine) {
+            env.PROJECT_VERSION = versionLine[0][1].trim()
+            env.PROJECT_PREFIX = "mbus-${env.PROJECT_VERSION}"
+         }
+      }
+   }
+
+   publishHTML([
+      allowMissing: false,
+      alwaysLinkToLastBuild: false,
+      keepAll: false,
+      reportDir: 'build/docs/docs/sphinx/html/',
+      reportFiles: 'index.html',
+      reportName: 'Documentation']
+   )
+   zip(dir: 'build/docs/docs/sphinx',
+      glob: 'html/**',
+      zipFile: "build/${env.PROJECT_PREFIX}-html.zip"
+   )
+   archiveArtifacts (
+      artifacts: "build/${env.PROJECT_PREFIX}-html.zip"
+   )
+   stash(
+      name: "sphinx-html",
+      includes: "build/${env.PROJECT_PREFIX}-html.zip"
+   )
+}
+
 pipeline {
    agent any
 
@@ -49,6 +90,7 @@ pipeline {
                   buildPrepare()
                   buildPreset('default', true)
                   buildPreset('test')
+                  buildDocs()
                }
             }
 
@@ -83,20 +125,6 @@ pipeline {
          }
       }
 
-      stage('get project version') {
-         steps {
-            dir('build/default') {
-               script {
-                  def systemInformation = sh(script: 'cmake --system-information', returnStdout: true)
-                  def versionLine = systemInformation =~ /CMAKE_PROJECT_VERSION:STATIC=(.*)/
-                  if (versionLine) {
-                     env.PROJECT_VERSION = versionLine[0][1].trim()
-                     env.PROJECT_PREFIX = "mbus-${env.PROJECT_VERSION}"
-                  }
-               }
-            }
-         }
-      }
       stage('samples') {
          steps {
             sh "git archive -o ${env.PROJECT_PREFIX}-samples.zip HEAD:sample --prefix ${env.PROJECT_PREFIX}-samples/"
