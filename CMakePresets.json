@@ -14,7 +14,7 @@
             "name": "test",
             "inherits" : "base",
             "cacheVariables": {
-                "COPEN_BUILD_TESTING": true,
+                "MBUS_BUILD_TESTING": true,
                 "CMAKE_BUILD_TYPE": "Coverage"
             }
         },
