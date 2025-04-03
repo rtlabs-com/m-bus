@@ -65,6 +65,14 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # Automatically and continuously number figures and tables
 numfig = True
 
+# Only auto-generate labels for page titles, not for other section title.
+# By default, sphinx.ext.autosectionlabel would generate labels for each
+# section title at any depth. Section titles such as "Setup"
+# would cause "duplicate label" warnings.
+# Page titles still need to be unique and can be reference by name.
+# Other section titles need not be unique but may not be reference by name.
+autosectionlabel_maxdepth = 1
+
 # Breathe Configuration
 breathe_default_project = "mbus"
 breathe_domain_by_extension = {
