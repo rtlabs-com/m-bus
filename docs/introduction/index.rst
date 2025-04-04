@@ -13,6 +13,7 @@ stack architecture.
    modbus.rst
    features.rst
    limitations.rst
+   build-instructions.rst
    abbreviations.rst
    master.rst
    slave.rst
