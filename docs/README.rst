@@ -51,7 +51,7 @@ How to build the manual
 How to write documentation
 --------------------------
 
-Documentation is written in reStructuredText (reST). For details on the syntax,
+Documentation is written in reStructuredText. For details on the syntax,
 see https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html
 
 The guideline followed is https://diataxis.fr/, where documentation is
@@ -68,10 +68,20 @@ to its :file:`index.rst` file::
   * :file:`doc/reference-manual/index.rst` for *Reference*
 
 
+How to check spelling
+---------------------
+
+#. Build the manual with spelling enabled::
+
+     cmake --build --preset docs --target sphinx-spelling
+
+   Outputs are written to :file:`.spelling` files in
+   build directory :file:`build\docs\docs\sphinx\spelling`
+
 How to create figures
 ---------------------
 
-Figures are generated using the kroki plugin. See https://kroki.io/examples.html.
+Figures are generated using the Kroki plugin. See https://kroki.io/examples.html.
 
 Examples:
 
