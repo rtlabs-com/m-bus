@@ -61,7 +61,8 @@ and *Reference*.
 New files are placed in the folder of their corresponding chapter and are added
 to its :file:`index.rst` file::
 
-  * :file:`doc/introduction/index.rst` for *Explanation*
+  * :file:`doc/introduction/index.rst`
+  * :file:`doc/stack-architecture/index.rst` for *Explanation*
   * :file:`doc/tutorials/index.rst` for *Tutorials*
   * :file:`doc/how-to-guides/index.rst` for *How-to guides*
   * :file:`doc/reference-manual/index.rst` for *Reference*

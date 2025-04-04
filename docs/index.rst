@@ -12,6 +12,7 @@ protocol. For a list of features, see :ref:`Stack features`.
    :caption: Contents
 
    introduction/index.rst
+   stack-architecture/index.rst
    tutorials/index.rst
    how-to-guides/index.rst
    reference-manual/index.rst

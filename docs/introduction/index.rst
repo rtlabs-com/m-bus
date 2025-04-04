@@ -3,8 +3,8 @@ Introduction
 
 .. See https://diataxis.fr/explanation/#writing-good-explanation
 
-This chapter contains background information on Modbus and the M-Bus
-stack architecture.
+This chapter contains background information on Modbus and an overview of
+the M-Bus Modbus stack.
 
 .. toctree::
    :maxdepth: 2
@@ -15,7 +15,4 @@ stack architecture.
    limitations.rst
    build-instructions.rst
    abbreviations.rst
-   master.rst
-   slave.rst
-   rtu.rst
-   tcp.rst
+
