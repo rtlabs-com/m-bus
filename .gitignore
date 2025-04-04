@@ -4,6 +4,7 @@ build*/
 CMakeFiles/
 CMakeCache.txt
 install
+.venv
 
 .cproject
 .project
