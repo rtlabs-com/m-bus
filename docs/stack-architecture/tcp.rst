@@ -5,7 +5,7 @@ The TCP transport data layer (or TCP layer for short) is an implementation of
 Modbus TCP, where Modbus data is transported over a TCP/IP network.
 It is one of two means of data transport supported, the other being Modbus RTU.
 The TCP layer may be used by either the slave stack or the master stack. The
-user does not interact with the TCP layer directly, except when intitialising
+user does not interact with the TCP layer directly, except when initialising
 it (see :ref:`TCP transport API`).
 This chapter will describe how the TCP layer interacts with the master/slave
 instance which owns it and the underlying TCP/IP network.

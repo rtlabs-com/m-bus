@@ -54,7 +54,7 @@ static void help (const char * name)
    printf (
       "Read/write Modbus registers\n"
       "\n"
-      "This purpose of this program is to demonstrate use of the m-bus\n"
+      "This purpose of this program is to demonstrate use of the M-Bus\n"
       "Modbus master stack. It may also be useful as a debugging tool.\n"
       "\n"
       "USAGE:\n"

@@ -26,8 +26,8 @@ Initialisation and configuration
 .. doxygenfunction:: mb_slave_id_set
 .. doxygenfunction:: mb_slave_transport_get
 
-De-initialisation
------------------
+Finalisation
+------------
 
 .. doxygenfunction:: mb_slave_shutdown
 

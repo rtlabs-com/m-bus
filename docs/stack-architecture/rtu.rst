@@ -7,7 +7,7 @@ It is one of two means of data transport supported, the other being Modbus TCP.
 The RTU layer may be used by either the slave stack or the master stack.
 The behaviour of the RTU layer is identical whether used by a master or slave
 instance.
-The user does not interact with the RTU layer directly, except when intitialising
+The user does not interact with the RTU layer directly, except when initialising
 it (see :ref:`RTU transport API`).
 This chapter will describe how the RTU layer interacts with the master/slave
 instance which owns it and the underlying serial line.

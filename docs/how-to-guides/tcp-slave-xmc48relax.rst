@@ -90,7 +90,7 @@ Instructions
 #. In the :guilabel:`Includes` tab, select :guilabel:`CNU C` and then press
    :guilabel:`Add...`.
 
-#. In the opened dialox box press :guilabel:`Workspace..` and then select project
+#. In the opened dialog box press :guilabel:`Workspace..` and then select project
    :guilabel:`MBUS-RelWithDebInfo@build.xmc48relax` with folder :file:`include`.
    Press :guilabel:`OK`.
 
