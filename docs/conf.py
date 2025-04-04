@@ -53,6 +53,7 @@ highlight_language = "none"
 
 # Spelling
 spelling_word_list_filename = "spelling-wordlist.txt"
+spelling_lang='en_UK'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = []
