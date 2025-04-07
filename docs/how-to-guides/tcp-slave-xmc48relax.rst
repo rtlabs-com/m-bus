@@ -1,21 +1,21 @@
 How to create a Modbus TCP slave running RT-Kernel
 ==================================================
 
-Hardware setup
---------------
+In this guide, an M-Bus `RT-Toolbox Workbench <https://docs.rt-labs.com/rt-toolbox>`_
+library project is first created.
+A slave Workbench application project is then created using the library project.
+
+Prerequisites
+-------------
 
 * `Infineon XMC4800 Relax Kit <https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc48_rlx_ecat_v2.1>`_.
 * Ethernet cable
-* PC
-
-Software setup
---------------
-
+* Windows or Linux PC
 * `CMake <https://cmake.org/>`_ 3.28 or later
-* `RT-Labs RT-Toolbox Workbench 2023.1 <https://docs.rt-labs.com/rt-toolbox/installation.html>`_ (previously rt-collab Workbench) or later
+* `RT-Labs RT-Toolbox Workbench 2024.1 <https://docs.rt-labs.com/rt-toolbox/installation.html>`_ (previously rt-collab Workbench) or later
 
-Create an M-Bus Workbench library project
------------------------------------------
+Instructions
+------------
 
 #. Open the :program:`Command Line` program in your RT-Toolbox installation.
 
@@ -24,7 +24,7 @@ Create an M-Bus Workbench library project
 
 #. Create a Workbench project for the M-Bus stack using the following command::
 
-      # RTK=/opt/rt-tools/rt-kernel-xmc4 BSP=xmc48relax cmake \
+      RTK=/opt/rt-tools/rt-kernel-xmc4 BSP=xmc48relax cmake \
          -B build.xmc48relax -S m-bus \
          -DCMAKE_TOOLCHAIN_FILE=cmake/tools/toolchain/rt-kernel.cmake \
          -DCMAKE_ECLIPSE_EXECUTABLE=/opt/rt-tools/workbench/Workbench \
@@ -50,13 +50,6 @@ Create an M-Bus Workbench library project
    :guilabel:`MBUS-RelWithDebInfo@build.xmc48relax`. Indexing errors may be ignored.
    It should be possible to build the project by right-clicking the project
    and selecting  :guilabel:`Build`.
-
-
-Create a slave Workbench application project
---------------------------------------------
-
-The following steps are based on the more general guide at
-https://docs.rt-labs.com/rt-toolbox/creating_a_new_project.html.
 
 #. In the :guilabel:`File` menu, select :guilabel:`New` and then :guilabel:`Project`.
 
@@ -99,6 +92,7 @@ https://docs.rt-labs.com/rt-toolbox/creating_a_new_project.html.
 
 #. In the opened dialox box press :guilabel:`Workspace..` and then select project
    :guilabel:`MBUS-RelWithDebInfo@build.xmc48relax` with folder :file:`include`.
+   Press :guilabel:`OK`.
 
 #. Repeat previous step for the following folders:
 
@@ -106,13 +100,19 @@ https://docs.rt-labs.com/rt-toolbox/creating_a_new_project.html.
    * :file:`[Subprojects]/OSAL/include`
    * :file:`[Subprojects]/OSAL/src/rt-kernel`
 
-#. In the :guilabel:`Libraries` tab, press :guilabel:`Add...` and type :file:`mbus`.
-   Repeat this for :file:`osal`
+#. In the :guilabel:`Libraries` tab, press :guilabel:`Add...` then type
+   :file:`mbus` and press :guilabel:`OK`.
+
+#. Repeat previous step for :file:`osal`
 
 #. In the :guilabel:`Library Paths` tab, press :guilabel:`Add...` and then
    :guilabel:`Workspace...`.
-   Select :guilabel:`MBUS-RelWithDebInfo@build.xmc48relax`.
-   Repeat this for :guilabel:`/MBUS-RelWithDebInfo@build.xmc48relax/_deps/osal-build`.
+   Select :guilabel:`MBUS-RelWithDebInfo@build.xmc48relax` and press :guilabel:`OK`
+
+#. Repeat previous step for
+   :guilabel:`/MBUS-RelWithDebInfo@build.xmc48relax/_deps/osal-build`.
+
+#. Press :guilabel:`Apply and Close`.
 
 #. Make sure the projects were configured correctly by right-clicking on the
    project :guilabel:`slave-app` and selecting  :guilabel:`Build`. It should
