@@ -1,24 +1,27 @@
-Master and slave on local PC
-============================
+Tutorial: Modbus traffic on local PC
+====================================
 
 In this tutorial we will use the M-Bus stack to build and run two command line
 programs, one acting as a Modbus slave (server) and one acting as a Modbus
 master (client).
 They will communicate with each other over a local TCP connection.
-A Linux machine is used (WSL on Windows works fine).
 
 Prerequisites
 -------------
 
-* `M-Bus <https://github.com/rtlabs-com/m-bus>`_ tree located in a directory ``m-bus``.
+* Linux PC or Windows PC with :term:`WSL`.
+* `M-Bus <https://github.com/rtlabs-com/m-bus>`_ tree located in a directory
+  :file:`m-bus`. This should be the full commercial
+  version, not the evaluation version.
 * `CMake <https://cmake.org>`_ tool at version 3.28 or higher.
+  May use :code:`sudo apt install cmake` to install on Ubuntu.
+* Any C and C++ compiler. May use :code:`sudo apt install gcc g++` to install
+  on Ubuntu.
 
 Instructions
 ------------
 
-#. Go to the ``m-bus`` directory::
-
-      cd m-bus
+#. Open up a terminal window
 
 #. Verify that the :command:`CMake` tool is installed::
 
@@ -30,6 +33,10 @@ Instructions
 
       CMake suite maintained and supported by Kitware (kitware.com/cmake).
 
+#. Go to the ``m-bus`` directory::
+
+      cd m-bus
+
 #. Set up the build system using :command:`CMake`::
 
       cmake -B build.tutorial
@@ -38,37 +45,31 @@ Instructions
    look something like the following (complaints about missing Python, Doxygen
    or Sphinx can be ignored)::
 
-      -- The C compiler identification is GNU 13.3.0
       -- The CXX compiler identification is GNU 13.3.0
-      -- Detecting C compiler ABI info
-      -- Detecting C compiler ABI info - done
-      -- Check for working C compiler: /usr/bin/cc - skipped
-      -- Detecting C compile features
-      -- Detecting C compile features - done
       -- Detecting CXX compiler ABI info
       -- Detecting CXX compiler ABI info - done
       -- Check for working CXX compiler: /usr/bin/c++ - skipped
       -- Detecting CXX compile features
       -- Detecting CXX compile features - done
       -- Current build type is: RelWithDebInfo
-      -- Current install path is: /mnt/c/Users/rtlfrm/Documents/Projects/Products/Modbus/m-bus/build.tutorial/install
+      -- Current install path is: /usr/local
       -- Building for Linux
       -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
       -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
       -- Found Threads: TRUE
-      -- Found Doxygen: /usr/bin/doxygen (found version "1.9.8") found components: doxygen dot
+      -- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE)
       -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
       -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
       -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
       -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
       -- Performing Test COMPILER_HAS_DEPRECATED_ATTR
       -- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
-      -- Found Python3: /mnt/c/Users/rtlfrm/Documents/Projects/Products/Modbus/m-bus/myvenv/bin/python3 (found version "3.12.3") found components: Interpreter
-      -- Found Doxygen: /usr/bin/doxygen (found suitable version "1.9.8", required range is "1.9.0...<2.0.0") found components: doxygen dot
-      -- Found Sphinx: /mnt/c/Users/rtlfrm/Documents/Projects/Products/Modbus/m-bus/myvenv/bin/sphinx-build
-      -- Configuring done (28.6s)
-      -- Generating done (3.7s)
-      -- Build files have been written to: /mnt/c/Users/rtlfrm/Documents/Projects/Products/Modbus/m-bus/build.tutorial
+      -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter
+      -- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) (Required is version range "1.9.0...<2.0.0")
+      -- Failed to find sphinx-build executable (missing: SPHINX_EXECUTABLE)
+      -- Configuring done (5.6s)
+      -- Generating done (0.0s)
+      -- Build files have been written to: /home/modbus-user/m-bus/build.tutorial
 
 #. Reconfigure the stack to show more logging information::
 
@@ -77,13 +78,14 @@ Instructions
    Example output::
 
       -- Current build type is: RelWithDebInfo
-      -- Current install path is: /mnt/c/Users/rtlfrm/Documents/Projects/Products/Modbus/m-bus/build.tutorial/install
+      -- Current install path is: /usr/local
       -- Building for Linux
-      -- Found Doxygen: /usr/bin/doxygen (found version "1.9.8") found components: doxygen dot
-      -- Found Doxygen: /usr/bin/doxygen (found suitable version "1.9.8", required range is "1.9.0...<2.0.0") found components: doxygen dot
-      -- Configuring done (5.6s)
-      -- Generating done (2.9s)
-      -- Build files have been written to: /mnt/c/Users/rtlfrm/Documents/Projects/Products/Modbus/m-bus/build.tutorial
+      -- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE)
+      -- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) (Required is version range "1.9.0...<2.0.0")
+      -- Failed to find sphinx-build executable (missing: SPHINX_EXECUTABLE)
+      -- Configuring done (1.6s)
+      -- Generating done (0.0s)
+      -- Build files have been written to: /home/modbus-user/m-bus/build.tutorial
 
 #. Now build the M-Bus stack as well as sample applications::
 
@@ -157,19 +159,19 @@ Instructions
    This wrote the value 0x1234 to the slave's holding register at address 0x0001.
    Output should look like this::
 
-      [14:02:00 INFO ] Connection established
-      [14:02:00 DEBUG] Sending header and 5 bytes data
-      [14:02:00 DEBUG] Receiving header
-      [14:02:00 DEBUG] Receiving 5 bytes data
+      [11:41:12 INFO ] Connection established
+      [11:41:12 DEBUG] Sending header and 5 bytes data
+      [11:41:12 DEBUG] Receiving header
+      [11:41:12 DEBUG] Receiving 5 bytes data
 
    On the other terminal window (the slave), the output should look like this::
 
-      [14:02:00 INFO ] Connection established
-      [14:02:00 DEBUG] Receiving header
-      [14:02:00 DEBUG] Receiving 5 bytes data
-      [14:02:00 DEBUG] Sending header and 5 bytes data
-      [14:02:00 DEBUG] Receiving header
-      [14:02:00 INFO ] Connection closed
+      [11:41:12 INFO ] Connection established
+      [11:41:12 DEBUG] Receiving header
+      [11:41:12 DEBUG] Receiving 5 bytes data
+      [11:41:12 DEBUG] Sending header and 5 bytes data
+      [11:41:12 DEBUG] Receiving header
+      [11:41:12 INFO ] Connection closed
 
 #. Read back the written value using the following command::
 
@@ -177,10 +179,10 @@ Instructions
 
    Output should look like this::
 
-      [14:06:58 INFO ] Connection established
-      [14:06:58 DEBUG] Sending header and 5 bytes data
-      [14:06:58 DEBUG] Receiving header
-      [14:06:58 DEBUG] Receiving 4 bytes data
+      [11:43:03 INFO ] Connection established
+      [11:43:03 DEBUG] Sending header and 5 bytes data
+      [11:43:03 DEBUG] Receiving header
+      [11:43:03 DEBUG] Receiving 4 bytes data
       0x1234
 
    Note that the value printed out on the last line is the same as was
