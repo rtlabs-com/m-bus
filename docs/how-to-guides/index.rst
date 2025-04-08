@@ -10,4 +10,5 @@ This chapter contains step-by-step guides to achieve specific tasks.
    :caption: Contents:
 
    linux-master.rst
+   windows-build.rst
    tcp-slave-xmc48relax.rst
