@@ -1,0 +1,24 @@
+[branches]
+source = "master"
+destination = "public"
+
+[user]
+name = "rt-labs bot"
+email = "rtlbot@rt-labs.com"
+
+[actions]
+remove_paths = [
+    ".docker",
+    ".github",
+    ".mutilatorrc",
+    ".jenkins",
+    ".gitmodules",
+    "docs/",
+    "*/cmake/",
+    "*/CMakeLists.txt",
+    "*/CMakePresets.json",
+    "cmake/",
+    "CMakeLists.txt",
+    "CMakePresets.json",
+    "*.cmake",
+]
