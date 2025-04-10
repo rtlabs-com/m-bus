@@ -38,7 +38,10 @@ void mb_pdu_tx (
    transport->tx (transport, transaction, size);
 }
 
-int mb_pdu_rx (mb_transport_t * transport, pdu_txn_t * transaction, uint32_t tmo)
+int mb_pdu_rx (
+   mb_transport_t * transport,
+   pdu_txn_t * transaction,
+   uint32_t tmo)
 {
    return transport->rx (transport, transaction, tmo);
 }

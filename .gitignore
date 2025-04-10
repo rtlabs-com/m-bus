@@ -4,10 +4,12 @@ build*/
 CMakeFiles/
 CMakeCache.txt
 install
+.venv
 
 .cproject
 .project
 .dir-locals.el
+.vs
 
 # Object files
 *.o

@@ -58,3 +58,8 @@ bool mock_mb_pdu_rx_avail (mb_transport_t * transport)
 {
    return false;
 }
+
+int mock_mb_transport_bringup (mb_transport_t * transport, const char * name)
+{
+   return 1;
+}

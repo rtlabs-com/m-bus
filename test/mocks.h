@@ -48,6 +48,7 @@ int mock_mb_pdu_rx (
 
 bool mock_mb_pdu_rx_bc (mb_transport_t * transport);
 bool mock_mb_pdu_rx_avail (mb_transport_t * transport);
+int mock_mb_transport_bringup (mb_transport_t * transport, const char * name);
 
 #ifdef __cplusplus
 }

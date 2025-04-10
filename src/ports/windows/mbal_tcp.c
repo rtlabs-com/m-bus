@@ -22,7 +22,7 @@
 #include "osal.h"
 
 #include <winsock2.h>
-#include <Mstcpip.h>
+#include <mstcpip.h>
 #include <stdio.h>
 
 #define KEEP_ALIVE_IDLE  10 /* max idle time before keepalive sent [s] */
@@ -237,7 +237,7 @@ void os_tcp_close (int peer)
 int os_tcp_send (int peer, const void * buffer, size_t size)
 {
    SOCKET s = (SOCKET)peer;
-   const uint8_t * p = buffer;
+   const char * p = buffer;
    int remain = (int)size;
    int n;
 
@@ -261,7 +261,7 @@ int os_tcp_send (int peer, const void * buffer, size_t size)
 int os_tcp_recv (int peer, void * buffer, size_t size)
 {
    SOCKET s = (SOCKET)peer;
-   uint8_t * p = buffer;
+   char * p = buffer;
    int remain = (int)size;
    int n;
 

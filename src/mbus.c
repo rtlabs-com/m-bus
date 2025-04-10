@@ -16,6 +16,7 @@
 #ifdef UNIT_TEST
 #define mb_pdu_tx mock_mb_pdu_tx
 #define mb_pdu_rx mock_mb_pdu_rx
+#define mb_transport_bringup mock_mb_transport_bringup
 #endif
 
 #include "mbus.h"
@@ -214,7 +215,7 @@ int mbus_write (
    int slave,
    mb_address_t address,
    uint16_t quantity,
-   void * buffer)
+   const void * buffer)
 {
    pdu_txn_t * transaction = &mbus->transaction;
    pdu_write_t * request   = mbus->scratch;

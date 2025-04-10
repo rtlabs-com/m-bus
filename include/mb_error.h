@@ -13,9 +13,8 @@
  * full license information.
  ********************************************************************/
 
-/**
- * \addtogroup mb_error Modbus error codes
- * \{
+/*
+ * Modbus error codes
  */
 
 #ifndef MB_ERROR_H
@@ -25,8 +24,14 @@
 extern "C" {
 #endif
 
-/* Modbus exceptions. A slave callback can return these. A master read
-   or write operation may result in one of these exceptions. */
+/* Modbus exceptions.
+ *
+ * A slave callback can return these. A master read
+ * or write operation may result in one of these exceptions.
+ *
+ * See "MODBUS Application Protocol Specification" chapter 7:
+ * "MODBUS Exception Responses".
+ */
 #define EILLEGAL_FUNCTION     -1 /**< Modbus exception ILLEGAL_FUNCTION */
 #define EILLEGAL_DATA_ADDRESS -2 /**< Modbus exception ILLEGAL_DATA_ADDRESS */
 #define EILLEGAL_DATA_VALUE   -3 /**< Modbus exception ILLEGAL_DATA_VALUE */
@@ -39,6 +44,12 @@ extern "C" {
 #define ETIMEOUT           -104 /**< Receive timed out */
 #define EUNKNOWN_EXCEPTION -105 /**< Modbus exception code not recognised */
 
+/**
+ * Get error as string literal
+ *
+ * \param error         Error code for communication error or exception
+ * \return              String with name of error or "Unknown error" if invalid
+ */
 static inline const char * mb_error_literal (int error)
 {
    switch (error)
@@ -71,7 +82,3 @@ static inline const char * mb_error_literal (int error)
 #endif
 
 #endif /* MB_ERROR_H */
-
-/**
- * \}
- */

@@ -19,9 +19,10 @@
 #include "osal.h"
 
 #include <string.h>
+#include <stdbool.h>
 
-static uint8_t coils[2] = {0x55, 0xAA};
-static uint16_t hold[4] = {0x1234, 0x5678, 0x55AA, 0xAA55};
+static bool coils[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+static uint16_t hold[4] = { 0x0000, 0x0000, 0x0000, 0x0000 };
 
 static int coil_get (uint16_t address, uint8_t * data, size_t quantity)
 {
@@ -30,10 +31,8 @@ static int coil_get (uint16_t address, uint8_t * data, size_t quantity)
    for (offset = 0; offset < quantity; offset++)
    {
       uint32_t bit = address + offset;
-      int value;
 
-      value = mb_slave_bit_get (coils, bit);
-      mb_slave_bit_set (data, offset, value);
+      mb_slave_bit_set (data, offset, coils[bit]);
    }
    return 0;
 }
@@ -45,10 +44,8 @@ static int coil_set (uint16_t address, uint8_t * data, size_t quantity)
    for (offset = 0; offset < quantity; offset++)
    {
       uint32_t bit = address + offset;
-      int value;
 
-      value = mb_slave_bit_get (data, offset);
-      mb_slave_bit_set (coils, bit, value);
+      coils[bit] = mb_slave_bit_get (data, offset);
    }
    return 0;
 }

@@ -78,7 +78,7 @@ void os_rtu_set_serial_cfg (int fd, const mb_rtu_serial_cfg_t * cfg)
       parity = None;
       break;
    default:
-      parity = ODD;
+      parity = Odd;
       break;
    }
 

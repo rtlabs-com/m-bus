@@ -36,7 +36,7 @@
 #define FLAG_T1P5     BIT (2)
 #define FLAG_T3P5     BIT (3)
 
-struct mb_rtu /* Typedef in mb_rtu.h */
+typedef struct mb_rtu
 {
    mb_transport_t transport;
 
@@ -50,7 +50,7 @@ struct mb_rtu /* Typedef in mb_rtu.h */
       void * arg);
    bool broadcast;
    uint32_t char_time_us;
-};
+} mb_rtu_t;
 
 int mb_tx_hook (void * arg, void * data)
 {

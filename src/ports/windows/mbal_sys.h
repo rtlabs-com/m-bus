@@ -17,7 +17,7 @@
 extern "C" {
 #endif
 
-#include <BaseTsd.h>
+#include <basetsd.h>
 typedef SSIZE_T ssize_t;
 
 #ifdef __cplusplus

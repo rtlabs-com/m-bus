@@ -13,9 +13,8 @@
  * full license information.
  ********************************************************************/
 
-/**
- * \addtogroup mb_transport Modbus transport layer
- * \{
+/*
+ * Modbus transport layer
  */
 
 #ifndef MB_TRANSPORT_H
@@ -30,6 +29,9 @@ extern "C" {
 #include <stdbool.h>
 #include <stddef.h>
 
+/**
+ * PDU transaction
+ */
 typedef struct pdu_txn
 {
    int arg;       /**< Transport peer identifier */
@@ -39,7 +41,11 @@ typedef struct pdu_txn
    void * data;   /**< Data for transaction */
 } pdu_txn_t;
 
+/**
+ * Transport data layer instance
+ */
 typedef struct mb_transport mb_transport_t;
+
 struct mb_transport
 {
    int (*bringup) (mb_transport_t * transport, const char * name);
@@ -49,16 +55,43 @@ struct mb_transport
       mb_transport_t * transport,
       const pdu_txn_t * transaction,
       size_t size);
-   int (*rx) (mb_transport_t * transport, pdu_txn_t * transaction, uint32_t tmo);
+   int (*rx) (
+      mb_transport_t * transport,
+      pdu_txn_t * transaction,
+      uint32_t tmo);
    bool (*rx_is_bc) (mb_transport_t * transport);
    bool (*rx_avail) (mb_transport_t * transport);
    bool is_server;
 };
 
+/**
+ * Bring up transport layer
+ *
+ * \param transport     Handle to transport layer
+ * \param name          Name of peer device
+ *
+ * \return File descriptor if successful, negative number otherwise
+ */
 int mb_transport_bringup (mb_transport_t * transport, const char * name);
 
+/**
+ * Shut down transport layer
+ *
+ * \param transport     Handle to transport layer
+ * \param arg           Argument, e.g. a slave file descriptor
+ *
+ * \return Always 0
+ */
 int mb_transport_shutdown (mb_transport_t * transport, int arg);
 
+/**
+ * Return true if transport layer is currently down
+ *
+ * \param transport     Handle to transport layer
+ *
+ * \return True transport layer is currently down,
+ * false otherwise
+ */
 bool mb_transport_is_down (mb_transport_t * transport);
 
 /**
@@ -66,9 +99,8 @@ bool mb_transport_is_down (mb_transport_t * transport);
  * according to the application data unit protocol (ADU) of the
  * underlying transport protocol.
  *
- * \param transport     handle
- * \param slave         Slave modbus ID
- * \param pdu           PDU to send
+ * \param transport     Handle to transport layer
+ * \param transaction   PDU transaction
  * \param size          Size of PDU
  */
 void mb_pdu_tx (
@@ -88,12 +120,11 @@ void mb_pdu_tx (
  * in \a tmo ticks. A \a tmo of 0 means to wait forever. See mb_error.h
  * for other possible error codes.
  *
- * \param transport     handle
- * \param slave         Slave modbus ID
- * \param pdu           Received PDU
- * \param tmo           Timeout
+ * \param transport     Handle to transport layer
+ * \param transaction   PDU Transaction
+ * \param tmo           Timeout in milliseconds
  *
- * \return size of pdu on success, negative error code otherwise
+ * \return Size of PDU on success, negative error code otherwise
  */
 int mb_pdu_rx (
    mb_transport_t * transport,
@@ -104,9 +135,9 @@ int mb_pdu_rx (
  * Return true if last received PDU was part of a broadcast message,
  * false otherwise
  *
- * \param transport     handle
+ * \param transport     Handle to transport layer
  *
- * \return true if last received PDU was part of a broadcast message,
+ * \return True if last received PDU was part of a broadcast message,
  * false otherwise
  */
 bool mb_pdu_rx_bc (mb_transport_t * transport);
@@ -114,9 +145,9 @@ bool mb_pdu_rx_bc (mb_transport_t * transport);
 /**
  * Return true if data has been received, false otherwise
  *
- * \param transport     handle
+ * \param transport     Handle to transport layer
  *
- * \return true if data has been received, false otherwise
+ * \return True if data has been received, false otherwise
  */
 bool mb_pdu_rx_avail (mb_transport_t * transport);
 
@@ -126,6 +157,3 @@ bool mb_pdu_rx_avail (mb_transport_t * transport);
 
 #endif /* MB_TRANSPORT_H */
 
-/**
- * \}
- */

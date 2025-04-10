@@ -14,8 +14,8 @@
  ********************************************************************/
 
 /**
- * \addtogroup mb_tcp Modbus TCP data layer
- * \{
+ * \file
+ * Modbus TCP transport data layer
  */
 
 #ifndef MB_TCP_H
@@ -30,26 +30,52 @@ extern "C" {
 
 #include <stdint.h>
 
+/**
+ * Default TCP server port
+ */
 #define MODBUS_DEFAULT_PORT 502
 
+/**
+ * TCP layer configuration
+ */
 typedef struct mb_tcp_cfg
 {
-   uint16_t port;
+   uint16_t port; /**< TCP server port.
+                   *   Modbus slave will listen on this local port.
+                   *   Modbus master will connect to slaves at this remote port.
+                   */
 } mb_tcp_cfg_t;
 
-typedef struct mb_tcp mb_tcp_t;
-
 /**
- * Initialise and configure the Modbus TCP data layer.
+ * Initialise and configure the Modbus TCP data layer
+ *
+ * This function allocates memory needed by the instance and initialises it.
+ * A CC_ASSERT() is triggered upon memory allocation failure.
+ * User may use the returned handle when initialising a Modbus master or slave
+ * instance.
+ *
+ * The following example creates a Modbus TCP layer instance with the default
+ * TCP server port for Modbus:
+ * \code
+ * mb_transport_t * transport;
+ * static const mb_tcp_cfg_t tcp_cfg =
+ * {
+ *    .port = MODBUS_DEFAULT_PORT,
+ * };
+ * transport = mb_tcp_init (&tcp_cfg);
+ * \endcode
+ *
+ * \see mbus_create() and mb_slave_init().
  *
  * \param cfg           TCP layer configuration
  *
- * \return handle to be used in further operations
+ * \return Handle to be used in further operations
  */
 MB_EXPORT mb_transport_t * mb_tcp_init (const mb_tcp_cfg_t * cfg);
 
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* MB_TCP_H */
 
-/**
- * \}
- */
