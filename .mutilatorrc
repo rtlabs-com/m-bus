@@ -9,7 +9,6 @@ email = "rtlbot@rt-labs.com"
 [actions]
 remove_paths = [
     ".docker",
-    ".github",
     ".mutilatorrc",
     ".jenkins",
     ".gitmodules",
