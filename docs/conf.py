@@ -83,6 +83,9 @@ breathe_domain_by_extension = {
 cpp_id_attributes = ["MB_EXPORT"]
 c_id_attributes = cpp_id_attributes
 
+# kroki configuration
+kroki_url = "http://kroki-docker.intra.rt-labs.com:8000"
+
 # -- Options for HTML output -------------------------------------------------
 
 html_context = {
