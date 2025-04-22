@@ -14,5 +14,5 @@ the M-Bus Modbus stack.
    features.rst
    limitations.rst
    build-instructions.rst
+   release-notes.rst
    abbreviations.rst
-
