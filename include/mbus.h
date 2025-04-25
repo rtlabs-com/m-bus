@@ -283,7 +283,7 @@ MB_EXPORT int mbus_read (
  * \param slave         Slave handle. See mbus_connect()
  * \param address       1-based starting address. May be constructed
  *                      by calling MB_ADDRESS(). Note that only coils and
- *                      holding registers are writeable.
+ *                      holding registers are writable.
  * \param quantity      Number of addresses to write. Valid range is 1 - 1968
  *                      for coils and 1 - 123 for holding registers
  * \param buffer        Input buffer
@@ -328,7 +328,7 @@ MB_EXPORT int mbus_write (
  * \param slave         Slave handle. See mbus_connect()
  * \param address       1-based address to be written to. May be constructed
  *                      by calling MB_ADDRESS(). Note that only coils and
- *                      holding registers are writeable.
+ *                      holding registers are writable.
  * \param value         The value to be written
  *
  * \return 0 on success, error code otherwise
