@@ -577,6 +577,8 @@ TEST_F (MbusExamples, MbusCreate)
    static const mb_tcp_cfg_t transport_cfg =
    {
       .port = 502,
+      .up_cb = nullptr,
+      .down_cb = nullptr,
    };
    static const mbus_cfg_t master_cfg =
    {

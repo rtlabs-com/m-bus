@@ -100,6 +100,7 @@ static int mb_rtu_bringup (mb_transport_t * transport, const char * name)
 {
    const char * p     = name;
    unsigned int slave = 0;
+   mb_rtu_t * mb_rtu = (mb_rtu_t *)transport;
 
    CC_ASSERT (name != NULL);
 
@@ -118,6 +119,11 @@ static int mb_rtu_bringup (mb_transport_t * transport, const char * name)
    if (slave > 247)
       goto error;
 
+   if (mb_rtu->transport.up_cb)
+   {
+      mb_rtu->transport.up_cb (&mb_rtu->transport);
+   }
+
    return slave;
 
 error:
@@ -127,6 +133,11 @@ error:
 
 static int mb_rtu_shutdown (mb_transport_t * transport, int arg)
 {
+   mb_rtu_t * mb_rtu = (mb_rtu_t *)transport;
+   if (mb_rtu->transport.down_cb)
+   {
+      mb_rtu->transport.down_cb (&mb_rtu->transport);
+   }
    return 0;
 }
 
@@ -423,6 +434,8 @@ mb_transport_t * mb_rtu_init (const mb_rtu_cfg_t * cfg)
    rtu->transport.rx       = mb_rtu_rx;
    rtu->transport.rx_is_bc = mb_rtu_rx_bc;
    rtu->transport.rx_avail = mb_rtu_rx_avail;
+   rtu->transport.up_cb    = cfg->up_cb;
+   rtu->transport.down_cb  = cfg->down_cb;
 
    rtu->tx_enable = cfg->tx_enable;
    rtu->tmr_init  = cfg->tmr_init;

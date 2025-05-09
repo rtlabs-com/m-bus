@@ -50,6 +50,20 @@ typedef struct mb_tcp
    mbap_t mbap;
 } mb_tcp_t;
 
+static void mb_tcp_set_is_down (mb_tcp_t * mb_tcp, bool is_down)
+{
+   mb_tcp->is_down = is_down;
+
+   if (mb_tcp->transport.down_cb && mb_tcp->is_down)
+   {
+      mb_tcp->transport.down_cb (&mb_tcp->transport);
+   }
+   else if (mb_tcp->transport.up_cb && !mb_tcp->is_down)
+   {
+      mb_tcp->transport.up_cb (&mb_tcp->transport);
+   }
+}
+
 static int mb_tcp_bringup (mb_transport_t * transport, const char * name)
 {
    mb_tcp_t * mb_tcp = (mb_tcp_t *)transport;
@@ -66,7 +80,7 @@ static int mb_tcp_bringup (mb_transport_t * transport, const char * name)
 
    if (peer > 0)
    {
-      mb_tcp->is_down = false;
+      mb_tcp_set_is_down (mb_tcp, false);
       LOG_INFO (MB_TCP_LOG, "Connection established\n");
    }
 
@@ -82,7 +96,7 @@ static int mb_tcp_shutdown (mb_transport_t * transport, int arg)
    {
       LOG_INFO (MB_TCP_LOG, "Connection closed\n");
       os_tcp_close (peer);
-      mb_tcp->is_down = true;
+      mb_tcp_set_is_down (mb_tcp, true);
    }
 
    os_usleep (10 * 1000);
@@ -120,7 +134,7 @@ static void mb_tcp_tx (
          connection. */
       LOG_INFO (MB_TCP_LOG, "Connection closed\n");
       os_tcp_close (peer);
-      mb_tcp->is_down = true;
+      mb_tcp_set_is_down (mb_tcp, true);
       return;
    }
 }
@@ -142,7 +156,7 @@ static int mb_tcp_rx (
    {
       LOG_INFO (MB_TCP_LOG, "Connection closed\n");
       os_tcp_close (peer);
-      mb_tcp->is_down = true;
+      mb_tcp_set_is_down (mb_tcp, true);
       return EFRAME_NOK;
    }
    if (result == 0)
@@ -175,7 +189,7 @@ static int mb_tcp_rx (
          message, close connection. */
       LOG_INFO (MB_TCP_LOG, "Connection closed\n");
       os_tcp_close (peer);
-      mb_tcp->is_down = true;
+      mb_tcp_set_is_down (mb_tcp, true);
       return EFRAME_NOK;
    }
 
@@ -222,6 +236,8 @@ mb_transport_t * mb_tcp_init (const mb_tcp_cfg_t * cfg)
    mb_tcp->transport.rx       = mb_tcp_rx;
    mb_tcp->transport.rx_is_bc = mb_tcp_rx_is_bc;
    mb_tcp->transport.rx_avail = mb_tcp_rx_avail;
+   mb_tcp->transport.up_cb    = cfg->up_cb;
+   mb_tcp->transport.down_cb  = cfg->down_cb;
 
    mb_tcp->is_down = true;
    mb_tcp->port    = cfg->port;

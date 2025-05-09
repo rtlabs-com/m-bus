@@ -528,7 +528,11 @@ static void mb_slave (void * arg)
       }
 
       if (transaction.arg == -1)
+      {
+         /* Avoid busy waiting on transport bringup */
+         os_usleep (1 * 1000);
          continue;
+      }
 
       transaction.unit = slave->id;
 

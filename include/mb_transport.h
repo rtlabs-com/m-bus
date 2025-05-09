@@ -61,6 +61,8 @@ struct mb_transport
       uint32_t tmo);
    bool (*rx_is_bc) (mb_transport_t * transport);
    bool (*rx_avail) (mb_transport_t * transport);
+   void (*up_cb) (mb_transport_t * transport);
+   void (*down_cb) (mb_transport_t * transport);
    bool is_server;
 };
 
