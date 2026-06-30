@@ -31,6 +31,7 @@ target_sources(mbus_test PRIVATE
   # Unit tests
   test_mbus.cpp
   test_slave.cpp
+  test_crc.cpp
 
   # Slave fixture
   ${MBUS_SOURCE_DIR}/sample/slave.c
