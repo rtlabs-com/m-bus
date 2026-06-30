@@ -70,43 +70,39 @@ class MbusExamples : public TestBase
 TEST_F (MbusTest, MbusReadCoils)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
-   uint8_t data[4];
+   uint8_t data[2];
    int error;
-   uint8_t expected[253] = {0x01, 0x27, 0x10, 0x00, 0x04};
-   uint8_t response[]    = {0x01, 0x04, 0x12, 0x34, 0x56, 0x78};
+   uint8_t expected[253] = {0x01, 0x27, 0x10, 0x00, 0x0C};
+   uint8_t response[]    = {0x01, 0x02, 0x12, 0x34};
 
    mock_mb_pdu_rx_data   = response;
    mock_mb_pdu_rx_size   = sizeof (response);
    mock_mb_pdu_rx_result = sizeof (response);
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 12, data);
    EXPECT_EQ (error, 0);
    EXPECT_TRUE (ArraysMatch (expected, mock_mb_pdu_tx_data));
    EXPECT_EQ (data[0], 0x12);
    EXPECT_EQ (data[1], 0x34);
-   EXPECT_EQ (data[2], 0x56);
-   EXPECT_EQ (data[3], 0x78);
 }
 
 TEST_F (MbusTest, MbusReadInputs)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_INPUTS, 0x2711);
-   uint8_t data[4];
+   uint8_t data[2];
    int error;
-   uint8_t expected[253] = {0x02, 0x27, 0x10, 0x00, 0x04};
-   uint8_t response[] = {0x02, 0x04, 0x12, 0x34, 0x56, 0x78};
+   uint8_t expected[253] = {0x02, 0x27, 0x10, 0x00, 0x0C};
+   uint8_t response[] = {0x02, 0x02, 0x12, 0x34};
 
    mock_mb_pdu_rx_data = response;
    mock_mb_pdu_rx_size = sizeof (response);
    mock_mb_pdu_rx_result = sizeof (response);
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 12, data);
    EXPECT_EQ (error, 0);
    EXPECT_TRUE (ArraysMatch (expected, mock_mb_pdu_tx_data));
    EXPECT_EQ (data[0], 0x12);
    EXPECT_EQ (data[1], 0x34);
-   EXPECT_EQ (data[2], 0x56);
-   EXPECT_EQ (data[3], 0x78);
 }
 
 TEST_F (MbusTest, MbusReadInputRegisters)
@@ -185,14 +181,14 @@ TEST_F (MbusTest, MbusReadShouldHandleRxError)
    mock_mb_pdu_rx_size   = 0;
    mock_mb_pdu_rx_result = -1;
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 1, data);
    EXPECT_EQ (error, -1);
 }
 
 TEST_F (MbusTest, MbusReadShouldHandleRxException)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
-   uint8_t data[4];
+   uint8_t data[1];
    int error;
    uint8_t response[] = {0x81, 0x00};
 
@@ -202,37 +198,37 @@ TEST_F (MbusTest, MbusReadShouldHandleRxException)
 
    response[1] = 1;
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 4, data);
    EXPECT_EQ (EILLEGAL_FUNCTION, error);
 
    response[1] = 2;
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 4, data);
    EXPECT_EQ (EILLEGAL_DATA_ADDRESS, error);
 
    response[1] = 3;
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 4, data);
    EXPECT_EQ (EILLEGAL_DATA_VALUE, error);
 
    response[1] = 4;
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 4, data);
    EXPECT_EQ (ESLAVE_DEVICE_FAILURE, error);
 
    response[1] = 99;
 
-   error = mbus_read (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 1, address, 4, data);
    EXPECT_EQ (EUNKNOWN_EXCEPTION, error);
 }
 
 TEST_F (MbusTest, MbusReadShouldDenyBroadcast)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
-   uint8_t data[4];
+   uint8_t data[1];
    int error;
 
-   error = mbus_read (&mbus, 0, address, NELEMENTS (data), data);
+   error = mbus_read (&mbus, 0, address, 4, data);
    EXPECT_EQ (error, -1);
    EXPECT_EQ (mock_mb_pdu_tx_calls, 0u);
 }
@@ -370,16 +366,15 @@ TEST_F (MbusTest, MbusWriteHoldingRegister)
 TEST_F (MbusTest, MbusWriteShouldHandleRxError)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
-   uint16_t data[2];
+   uint16_t data[1];
    int error;
 
    mock_mb_pdu_rx_data   = NULL;
    mock_mb_pdu_rx_size   = 0;
    mock_mb_pdu_rx_result = -1;
 
-   data[0] = 0x55AA;
-   data[1] = 0x1122;
-   error   = mbus_write (&mbus, 1, address, NELEMENTS (data), data);
+   data[0] = 0x03;
+   error   = mbus_write (&mbus, 1, address, 2, data);
    EXPECT_EQ (error, -1);
 }
 
@@ -402,7 +397,7 @@ TEST_F (MbusTest, MbusWriteShouldValidateQuantity)
 TEST_F (MbusTest, MbusWriteShouldHandleRxException)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
-   uint16_t data[2];
+   uint8_t data[1];
    int error;
    uint8_t response[] = {0x81, 0x00};
 
@@ -410,45 +405,42 @@ TEST_F (MbusTest, MbusWriteShouldHandleRxException)
    mock_mb_pdu_rx_size   = sizeof (response);
    mock_mb_pdu_rx_result = sizeof (response);
 
-   data[0] = 0x55AA;
-   data[1] = 0x1122;
-
+   data[0] = 0x05;
    response[1] = 1;
 
-   error = mbus_write (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_write (&mbus, 1, address, 4, data);
    EXPECT_EQ (EILLEGAL_FUNCTION, error);
 
    response[1] = 2;
 
-   error = mbus_write (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_write (&mbus, 1, address, 4, data);
    EXPECT_EQ (EILLEGAL_DATA_ADDRESS, error);
 
    response[1] = 3;
 
-   error = mbus_write (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_write (&mbus, 1, address, 4, data);
    EXPECT_EQ (EILLEGAL_DATA_VALUE, error);
 
    response[1] = 4;
 
-   error = mbus_write (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_write (&mbus, 1, address, 4, data);
    EXPECT_EQ (ESLAVE_DEVICE_FAILURE, error);
 
    response[1] = 99;
 
-   error = mbus_write (&mbus, 1, address, NELEMENTS (data), data);
+   error = mbus_write (&mbus, 1, address, 4, data);
    EXPECT_EQ (EUNKNOWN_EXCEPTION, error);
 }
 
 TEST_F (MbusTest, MbusWriteShouldNotExpectResponseOnBroadcast)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
-   uint16_t data[2];
+   uint8_t data[1];
    int error;
 
-   data[0] = 0x55AA;
-   data[1] = 0x1122;
+   data[0] = 0x03;
 
-   error = mbus_write (&mbus, 0, address, NELEMENTS (data), data);
+   error = mbus_write (&mbus, 0, address, 2, data);
    EXPECT_EQ (error, 0);
    EXPECT_EQ (mock_mb_pdu_rx_calls, 0u);
 }
@@ -603,7 +595,7 @@ TEST_F (MbusExamples, MbusConnect)
 TEST_F (MbusExamples, MbusRead1)
 {
    int result;
-   uint8_t response[2 + 2 * 10] = {0x04, 10};
+   uint8_t response[2 + 2 * 10] = {0x04, 20};
    mock_mb_pdu_rx_data = response;
    mock_mb_pdu_rx_size = sizeof (response);
    mock_mb_pdu_rx_result = sizeof (response);
