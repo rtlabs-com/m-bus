@@ -86,6 +86,30 @@ TEST_F (MbusTest, MbusReadCoils)
    EXPECT_EQ (data[1], 0x34);
 }
 
+TEST_F (MbusTest, MbusReadCoilsInvalidReturnCount)
+{
+   mb_address_t address = MB_ADDRESS (MB_TABLE_COILS, 0x2711);
+   uint8_t data[] = {0xDE, 0xAD, 0xBE};
+   int error;
+   uint8_t response[]    = {0x01, 0x02, 0x12, 0x34};
+
+   mock_mb_pdu_rx_data   = response;
+   mock_mb_pdu_rx_size   = sizeof (response);
+   mock_mb_pdu_rx_result = sizeof (response);
+
+   error = mbus_read (&mbus, 1, address, 8, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too large";
+   EXPECT_EQ (data[0], 0xDE);
+   EXPECT_EQ (data[1], 0xAD);
+   EXPECT_EQ (data[2], 0xBE);
+
+   error = mbus_read (&mbus, 1, address, 17, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too small";
+   EXPECT_EQ (data[0], 0xDE);
+   EXPECT_EQ (data[1], 0xAD);
+   EXPECT_EQ (data[2], 0xBE);
+}
+
 TEST_F (MbusTest, MbusReadInputs)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_INPUTS, 0x2711);
@@ -103,6 +127,30 @@ TEST_F (MbusTest, MbusReadInputs)
    EXPECT_TRUE (ArraysMatch (expected, mock_mb_pdu_tx_data));
    EXPECT_EQ (data[0], 0x12);
    EXPECT_EQ (data[1], 0x34);
+}
+
+TEST_F (MbusTest, MbusReadInputsInvalidReturnCount)
+{
+   mb_address_t address = MB_ADDRESS (MB_TABLE_INPUTS, 0x2711);
+   uint8_t data[] = {0xDE, 0xAD, 0xBE};
+   int error;
+   uint8_t response[] = {0x02, 0x02, 0x12, 0x34};
+
+   mock_mb_pdu_rx_data = response;
+   mock_mb_pdu_rx_size = sizeof (response);
+   mock_mb_pdu_rx_result = sizeof (response);
+
+   error = mbus_read (&mbus, 1, address, 8, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too large";
+   EXPECT_EQ (data[0], 0xDE);
+   EXPECT_EQ (data[1], 0xAD);
+   EXPECT_EQ (data[2], 0xBE);
+
+   error = mbus_read (&mbus, 1, address, 17, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too small";
+   EXPECT_EQ (data[0], 0xDE);
+   EXPECT_EQ (data[1], 0xAD);
+   EXPECT_EQ (data[2], 0xBE);
 }
 
 TEST_F (MbusTest, MbusReadInputRegisters)
@@ -125,6 +173,30 @@ TEST_F (MbusTest, MbusReadInputRegisters)
    EXPECT_EQ (data[2], 0x5566);
 }
 
+TEST_F (MbusTest, MbusReadInputRegistersInvalidReturnCount)
+{
+   mb_address_t address = MB_ADDRESS (MB_TABLE_INPUT_REGISTERS, 0x2711);
+   uint16_t data[] = {0xDEAD, 0xBEEF, 0xCAFE};
+   int error;
+   uint8_t response[] = {0x04, 0x04, 0x11, 0x22, 0x33, 0x44};
+
+   mock_mb_pdu_rx_data = response;
+   mock_mb_pdu_rx_size = sizeof (response);
+   mock_mb_pdu_rx_result = sizeof (response);
+
+   error = mbus_read (&mbus, 1, address, 1, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too large";
+   EXPECT_EQ (data[0], 0xDEAD);
+   EXPECT_EQ (data[1], 0xBEEF);
+   EXPECT_EQ (data[2], 0xCAFE);
+
+   error = mbus_read (&mbus, 1, address, 3, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too small";
+   EXPECT_EQ (data[0], 0xDEAD);
+   EXPECT_EQ (data[1], 0xBEEF);
+   EXPECT_EQ (data[2], 0xCAFE);
+}
+
 TEST_F (MbusTest, MbusReadHoldingRegisters)
 {
    mb_address_t address = MB_ADDRESS (MB_TABLE_HOLDING_REGISTERS, 0x2711);
@@ -143,6 +215,30 @@ TEST_F (MbusTest, MbusReadHoldingRegisters)
    EXPECT_EQ (data[0], 0x1122);
    EXPECT_EQ (data[1], 0x3344);
    EXPECT_EQ (data[2], 0x5566);
+}
+
+TEST_F (MbusTest, MbusReadHoldingRegistersInvalidReturnCount)
+{
+   mb_address_t address = MB_ADDRESS (MB_TABLE_HOLDING_REGISTERS, 0x2711);
+   uint16_t data[] = {0xDEAD, 0xBEEF, 0xCAFE};
+   int error;
+   uint8_t response[] = {0x03, 0x04, 0x11, 0x22, 0x33, 0x44};
+
+   mock_mb_pdu_rx_data   = response;
+   mock_mb_pdu_rx_size   = sizeof (response);
+   mock_mb_pdu_rx_result = sizeof (response);
+
+   error = mbus_read (&mbus, 1, address, 1, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too large";
+   EXPECT_EQ (data[0], 0xDEAD);
+   EXPECT_EQ (data[1], 0xBEEF);
+   EXPECT_EQ (data[2], 0xCAFE);
+
+   error = mbus_read (&mbus, 1, address, 3, data);
+   EXPECT_EQ (error, EFRAME_NOK) << "Too small";
+   EXPECT_EQ (data[0], 0xDEAD);
+   EXPECT_EQ (data[1], 0xBEEF);
+   EXPECT_EQ (data[2], 0xCAFE);
 }
 
 TEST_F (MbusTest, MbusReadShouldValidateQuantity)

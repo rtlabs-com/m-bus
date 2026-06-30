@@ -132,11 +132,21 @@ int mbus_read (
       {
       case PDU_READ_COILS: /* Fall-through */
       case PDU_READ_INPUTS:
+         if (read_response->count != ((quantity + 7U) / 8U))
+         {
+            result = EFRAME_NOK;
+            break;
+         }
          memcpy (buffer, read_response->data, read_response->count);
          result = 0;
          break;
       case PDU_READ_INPUT_REGISTERS: /* Fall-through */
       case PDU_READ_HOLDING_REGISTERS:
+         if (read_response->count != (quantity * 2U))
+         {
+            result = EFRAME_NOK;
+            break;
+         }
          for (i = 0; i < read_response->count; i += 2)
          {
             ((uint8_t *)buffer)[i + 1] = read_response->data[i];
