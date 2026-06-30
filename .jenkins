@@ -135,28 +135,31 @@ pipeline {
       }
       stage('verify') {
          steps {
-            sh 'ctest --preset test --output-junit test-results.xml'
+            sh script: 'ctest --preset test --output-junit test-results.xml', returnStatus: true
             dir('build/test') {
-               sh 'gcovr --xml -o coverage.xml --object-directory . --root $WORKSPACE/src'
+               sh '''
+                  gcovr --xml -o coverage.xml \
+                        --object-directory . \
+                        --root $WORKSPACE \
+                        --exclude $WORKSPACE/build \
+                        --exclude $WORKSPACE/test \
+                        --exclude $WORKSPACE/sample
+               '''
             }
-         }
-         post {
-            always {
-               junit '**/test-results.xml'
 
-               cobertura autoUpdateHealth: false,
-                  autoUpdateStability: false,
-                  coberturaReportFile: '**/coverage.xml',
-                  conditionalCoverageTargets: '70, 0, 0',
-                  lineCoverageTargets: '80, 0, 0',
-                  enableNewApi: false,
-                  failNoReports: false,
-                  failUnhealthy: false,
-                  failUnstable: false,
-                  maxNumberOfBuilds: 0,
-                  sourceEncoding: 'ASCII',
-                  zoomCoverageChart: false
-            }
+            discoverGitReferenceBuild()
+
+            junit '**/test-results.xml'
+            recordCoverage(
+               tools: [[
+                  parser: 'COBERTURA',
+                  pattern: '**/coverage.xml'
+               ]],
+               qualityGates: [
+                  [threshold: 35.0, metric: 'LINE'],
+                  [threshold: 35.0, metric: 'BRANCH']
+               ]
+            )
          }
       }
    }
