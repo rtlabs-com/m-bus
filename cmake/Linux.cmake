@@ -46,14 +46,14 @@ target_compile_options(mbus
   -Werror
   -Wno-unused-parameter
   INTERFACE
-  $<$<CONFIG:Coverage>:--coverage>
+  $<$<CONFIG:Coverage>:--coverage -g>
   )
 
 target_link_libraries(mbus
   PUBLIC
   $<$<BOOL:${USE_TRACE}>:LTTng::UST>
   INTERFACE
-  $<$<CONFIG:Coverage>:--coverage>
+  $<$<CONFIG:Coverage>:--coverage -g>
   )
 
 if (BUILD_TESTING)
