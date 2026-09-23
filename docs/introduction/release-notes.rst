@@ -1,6 +1,27 @@
 Release notes
 =============
 
+Version 1.0.1
+-------------
+
+Summary
+~~~~~~~
+
+This release fixes cybersecurity issue CVE-2026-76815. Please see the
+`cybersecurity advisory
+<https://rt-labs.com/wp-content/uploads/2026/09/RRTL-260927-01.pdf>`_
+for more information.
+
+Issues fixed
+~~~~~~~~~~~~
+
+.. only:: not spelling
+
+   .. csv-table::
+      :file: issues/v1.0.1.csv
+      :widths: 10, 60, 20, 10
+      :header-rows: 1
+
 Version 1.0.0
 -------------
 

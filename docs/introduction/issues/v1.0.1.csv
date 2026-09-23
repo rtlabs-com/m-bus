@@ -1,0 +1,2 @@
+ID,Summary,Component,Severity
+2582,OOB write of buffer in modbus (m-bus),M-Bus,high
